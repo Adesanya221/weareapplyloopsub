@@ -1,0 +1,32 @@
+'use strict';
+
+// import type {HostComponent} from '../../Renderer/shims/ReactNativeTypes';
+
+const TextInputState = {
+  /**
+   * Returns the currently focused input.
+   */
+  currentlyFocusedInput() {
+    return document.activeElement;
+  },
+
+  /**
+   * Blurs the currently focused input.
+   */
+  blurTextInput(textField) {
+    if (textField) {
+      textField.blur();
+    }
+  },
+
+  /**
+   * Focuses the input with the given ref.
+   */
+  focusTextInput(textField) {
+    if (textField) {
+      textField.focus();
+    }
+  },
+};
+
+export default TextInputState; 
