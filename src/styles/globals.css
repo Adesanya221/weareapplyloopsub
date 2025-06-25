@@ -1,0 +1,428 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Add smooth transitions for dark mode */
+@layer base {
+  html {
+    @apply transition-colors duration-300 ease-in-out;
+  }
+  
+  body, 
+  main, 
+  header, 
+  footer, 
+  section,
+  aside,
+  nav,
+  article,
+  div,
+  span,
+  h1, h2, h3, h4, h5, h6,
+  p, a, button, input, textarea, select,
+  table, th, td, tr, 
+  svg, path, rect, circle {
+    @apply transition-colors duration-300 ease-in-out;
+  }
+}
+
+/* Enhanced animations for dropdowns and charts */
+@keyframes dropdownEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+    box-shadow: 0 0 0 rgba(37, 99, 235, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.1), 0 4px 6px -2px rgba(37, 99, 235, 0.05);
+  }
+}
+
+@keyframes tabEnter {
+  from {
+    transform: scaleX(0);
+    background-color: rgba(37, 99, 235, 0);
+  }
+  to {
+    transform: scaleX(1);
+    background-color: rgba(37, 99, 235, 0.1);
+  }
+}
+
+@keyframes sectionEnter {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes userEnter {
+  from {
+    opacity: 0;
+    transform: translateX(15px);
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes noteEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    border-color: rgba(37, 99, 235, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    border-color: rgba(37, 99, 235, 0.3);
+  }
+}
+
+@keyframes alertEnter {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+    background-color: rgba(37, 99, 235, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    background-color: rgba(37, 99, 235, 0.1);
+  }
+}
+
+@keyframes timelineEnter {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+    height: 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    height: auto;
+  }
+}
+
+@keyframes fadeIn {
+  0% { 
+    opacity: 0; 
+    transform: translateY(15px); 
+    filter: blur(2px);
+  }
+  100% { 
+    opacity: 1; 
+    transform: translateY(0); 
+    filter: blur(0);
+  }
+}
+
+@keyframes scaleIn {
+  0% { 
+    transform: scale(0.90); 
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% { 
+    transform: scale(1); 
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% { 
+    transform: scale(1); 
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4);
+  }
+  50% { 
+    transform: scale(1.05); 
+    box-shadow: 0 0 0 5px rgba(37, 99, 235, 0);
+  }
+  100% { 
+    transform: scale(1); 
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+  }
+}
+
+@keyframes chartFadeIn {
+  0% { 
+    opacity: 0; 
+    transform: translateY(10px) scale(0.97); 
+    filter: blur(3px);
+  }
+  20% {
+    opacity: 0.6;
+  }
+  100% { 
+    opacity: 1; 
+    transform: translateY(0) scale(1); 
+    filter: blur(0);
+  }
+}
+
+@keyframes valueUpdate {
+  0% { 
+    opacity: 0; 
+    transform: translateY(10px);
+    color: rgba(37, 99, 235, 1);
+  }
+  100% { 
+    opacity: 1; 
+    transform: translateY(0);
+    color: currentColor;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes blueRipple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.2);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(37, 99, 235, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+  }
+}
+
+/* Custom utility classes */
+.animate-dropdownEnter {
+  animation: dropdownEnter 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-tabEnter {
+  animation: tabEnter 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-sectionEnter {
+  animation: sectionEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-userEnter {
+  animation: userEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-noteEnter {
+  animation: noteEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-alertEnter {
+  animation: alertEnter 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-timelineEnter {
+  animation: timelineEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-staggered-fadeIn > * {
+  animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.animate-staggered-fadeIn > *:nth-child(1) { animation-delay: 0.1s; }
+.animate-staggered-fadeIn > *:nth-child(2) { animation-delay: 0.2s; }
+.animate-staggered-fadeIn > *:nth-child(3) { animation-delay: 0.3s; }
+.animate-staggered-fadeIn > *:nth-child(4) { animation-delay: 0.4s; }
+.animate-staggered-fadeIn > *:nth-child(5) { animation-delay: 0.5s; }
+.animate-staggered-fadeIn > *:nth-child(6) { animation-delay: 0.6s; }
+
+.animate-scaleIn {
+  animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-pulse-blue {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-chartFadeIn {
+  animation: chartFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-valueUpdate {
+  animation: valueUpdate 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0),
+    rgba(37, 99, 235, 0.1),
+    rgba(255, 255, 255, 0)
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+.animate-blueRipple {
+  animation: blueRipple 1.5s infinite;
+}
+
+/* Custom scrollbar styles */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(37, 99, 235, 0.3) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(37, 99, 235, 0.3);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(37, 99, 235, 0.5);
+}
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-rgb: 248, 249, 250;
+  --primary-color: 37, 99, 235;
+  --secondary-color: 29, 78, 216;
+  --blue-light: 219, 234, 254;
+  --blue-accent: 59, 130, 246;
+  --pink-accent: 219, 39, 119;
+  --yellow-accent: 245, 158, 11;
+  --red-accent: 239, 68, 68;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-rgb: 33, 37, 41;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background-color: rgb(var(--background-rgb));
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+@layer components {
+  .container {
+    @apply px-4 mx-auto max-w-7xl;
+  }
+
+  .btn {
+    @apply px-4 py-2 font-medium rounded-full transition-colors duration-150;
+  }
+
+  .btn-primary {
+    @apply bg-blue-600 text-white hover:bg-blue-700 shadow-sm;
+  }
+
+  .btn-outline {
+    @apply border border-blue-600 text-blue-600 hover:bg-blue-50;
+  }
+  
+  .card {
+    @apply bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6;
+  }
+}
+
+/* Add theme toggle animation */
+@keyframes sunRotate {
+  from {
+    transform: rotate(0deg) scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(360deg) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes moonRotate {
+  from {
+    transform: rotate(0deg) scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(-360deg) scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-sun {
+  animation: sunRotate 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-moon {
+  animation: moonRotate 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Add vendor status toggle animation */
+@keyframes onlineAnimation {
+  0% {
+    transform: scale(0.6);
+    background-color: rgba(34, 197, 94, 0.2);
+  }
+  70% {
+    transform: scale(1.1);
+    background-color: rgba(34, 197, 94, 0.5);
+  }
+  100% {
+    transform: scale(1);
+    background-color: rgba(34, 197, 94, 0.3);
+  }
+}
+
+@keyframes offlineAnimation {
+  0% {
+    transform: scale(0.6);
+    background-color: rgba(239, 68, 68, 0.2);
+  }
+  70% {
+    transform: scale(1.1);
+    background-color: rgba(239, 68, 68, 0.5);
+  }
+  100% {
+    transform: scale(1);
+    background-color: rgba(239, 68, 68, 0.3);
+  }
+}
+
+.animate-online {
+  animation: onlineAnimation 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-offline {
+  animation: offlineAnimation 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
