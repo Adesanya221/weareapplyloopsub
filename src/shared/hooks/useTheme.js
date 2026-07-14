@@ -11,14 +11,13 @@ export const ThemeProvider = ({ children }) => {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       // Check localStorage
-      const savedTheme = localStorage.getItem('orderlyTheme');
+      const savedTheme = localStorage.getItem('applyloopTheme');
       
       if (savedTheme) {
         setIsDarkMode(savedTheme === 'dark');
       } else {
-        // Check user's system preference if no saved theme
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        setIsDarkMode(prefersDark);
+        // Default to light mode (original color scheme) to prevent unwanted system dark mode overrides
+        setIsDarkMode(false);
       }
     }
   }, []);
