@@ -10,12 +10,12 @@ import Head from 'next/head';
  * @param {string} props.image - OG image URL
  */
 const SEO = ({ 
-  title = 'Orderly Dashboard', 
-  description = 'Manage your restaurant business with real-time analytics and insights', 
+  title = 'ApplyLoop Dashboard', 
+  description = 'Track your applications, monitor progress, and stay in control of your job search.', 
   canonical, 
   image = '/images/og-image.png'
 }) => {
-  const siteTitle = `${title} | Orderly App`;
+  const siteTitle = title.includes('ApplyLoop') ? title : `${title} | ApplyLoop`;
   
   return (
     <Head>

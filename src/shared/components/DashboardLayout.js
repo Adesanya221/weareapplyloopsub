@@ -3,46 +3,29 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { 
   FiBell, 
-  FiMessageSquare, 
-  FiGift, 
-  FiGrid, 
-  FiImage, 
-  FiBarChart2, 
-  FiStar, 
-  FiSettings, 
-  FiGlobe, 
-  FiFileText, 
-  FiShoppingBag,
-  FiShoppingCart,
-  FiList,
-  FiUsers,
-  FiPackage,
+  FiHome,
+  FiCpu,
+  FiCreditCard,
+  FiTrendingUp,
+  FiSettings,
+  FiHelpCircle,
+  FiSearch,
   FiUser,
-  FiWifi,
-  FiWifiOff
+  FiLogOut
 } from 'react-icons/fi';
 
 import NotificationDropdown from './NotificationDropdown';
-import ChatDropdown from './ChatDropdown';
-import GiftNotificationDropdown from './GiftNotificationDropdown';
 import ProfileDropdown from './ProfileDropdown';
-import CartMini from './CartMini';
-import VendorStatusBadge from './VendorStatusBadge';
-import { useVendorProfile } from '../hooks/useVendorProfile';
 import { useTheme } from '../hooks/useTheme';
-import { useVendorStatus } from '../hooks/useVendorStatus';
 import { useAuth } from '../context/AuthContext';
 
 const DashboardLayout = ({ children, logout: logoutProp }) => {
   const router = useRouter();
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-  const [isChatOpen, setIsChatOpen] = useState(false);
-  const [isGiftOpen, setIsGiftOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const { profileData } = useVendorProfile();
+  const [showSignOut, setShowSignOut] = useState(false);
   const { isDarkMode } = useTheme();
-  const { isOnline } = useVendorStatus();
-  const { logout: authLogout } = useAuth();
+  const { user, logout: authLogout } = useAuth();
   
   // Use the logout from props if available, otherwise use from AuthContext
   const handleLogout = () => {
@@ -53,36 +36,20 @@ const DashboardLayout = ({ children, logout: logoutProp }) => {
       authLogout();
     } else {
       console.error("Logout function not available");
-      // Fallback if logout prop is not available
       if (typeof window !== 'undefined') {
         localStorage.removeItem('orderlyAuthToken');
         router.push('/auth/login');
       }
     }
   };
-  
-  // Get time of day for greeting
-  const getGreeting = () => {
-    const hour = new Date().getHours();
-    if (hour < 12) return 'Good Morning';
-    if (hour < 18) return 'Good Afternoon';
-    return 'Good Evening';
-  };
 
-  // Navigation items
+  // Navigation items for ApplyLoop
   const navItems = [
-    { icon: FiGrid, label: 'Dashboard', href: '/dashboard' },
-    { icon: FiImage, label: 'Menu Items', href: '/menu-items' },
-    { icon: FiShoppingCart, label: 'Orders', href: '/orders' },
-    { icon: FiList, label: 'Order List', href: '/order-list' },
-    { icon: FiUsers, label: 'Customer List', href: '/customer-list' },
-    { icon: FiPackage, label: 'Inventory', href: '/inventory' },
-    { icon: FiBarChart2, label: 'Analytics', href: '/analytics' },
-    { icon: FiStar, label: 'Reviews', href: '/reviews' },
-    { icon: FiUser, label: 'My Profile', href: '/my-profile' },
+    { icon: FiHome, label: 'Home', href: '/dashboard' },
+    { icon: FiCpu, label: 'Loop Lab', href: '/loop-lab' },
+    { icon: FiCreditCard, label: 'Billing and Subscription', href: '/billing' },
+    { icon: FiTrendingUp, label: 'Growth', href: '/growth' },
     { icon: FiSettings, label: 'Settings', href: '/settings' },
-    { icon: FiGlobe, label: 'Regions', href: '/regions' },
-    { icon: FiFileText, label: 'Reports', href: '/reports' },
   ];
   
   // Mock notification data
@@ -144,166 +111,153 @@ const DashboardLayout = ({ children, logout: logoutProp }) => {
   return (
     <div className="flex h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       {/* Sidebar */}
-      <div className="w-[58px] bg-blue-600 dark:bg-blue-800 flex flex-col items-center py-4 text-white transition-all duration-300 hover:w-[180px] group">
-        {/* Logo */}
-        <div className="w-10 h-10 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-8 transition-all">
-          <FiShoppingBag className="text-blue-600 dark:text-blue-400 text-xl" />
+      <div className="w-[280px] bg-white dark:bg-gray-800 flex flex-col justify-between py-6 border-r border-gray-200 dark:border-gray-700 transition-all duration-300">
+        <div>
+          {/* Logo */}
+          <div className="flex items-center px-6 mb-8 gap-3">
+            <img
+              src="/logo.svg"
+              alt="ApplyLoop Logo"
+              className="w-9 h-9 rounded-full object-cover select-none"
+            />
+            <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+              ApplyLoop
+            </span>
+          </div>
+          
+          {/* Navigation links */}
+          <nav className="flex flex-col space-y-1.5 px-3">
+            {navItems.map((item, index) => {
+              const Icon = item.icon;
+              const isActive = router.pathname === item.href;
+              
+              return (
+                <Link 
+                  key={index}
+                  href={item.href}
+                  className={`flex items-center px-4 py-3 rounded-xl transition-all font-medium text-sm gap-3 ${
+                    isActive 
+                      ? 'bg-blue-50 text-primary dark:bg-blue-900/30 dark:text-blue-400' 
+                      : 'text-gray-500 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-700/50'
+                  }`}
+                >
+                  <Icon className="text-lg" />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+          </nav>
         </div>
-        
-        {/* Navigation Icons */}
-        <nav className="flex flex-col items-center space-y-6 w-full">
-          {navItems.map((item, index) => {
-            const Icon = item.icon;
-            const isActive = router.pathname === item.href;
-            
-            return (
-              <Link 
-                key={index}
-                href={item.href}
-                className={`p-2 ${isActive ? 'bg-blue-700 dark:bg-blue-900' : 'hover:bg-blue-700 dark:hover:bg-blue-900'} rounded-lg transition-colors flex items-center w-full justify-center group-hover:justify-start group-hover:px-4`}
+
+        {/* Sidebar Bottom: Profile + Support */}
+        <div className="px-3 space-y-4">
+          <div className="border-t border-gray-100 dark:border-gray-700 pt-4">
+            {/* Profile with Sign Out dropdown */}
+            <div className="relative">
+              <div
+                onClick={() => setShowSignOut(!showSignOut)}
+                className="flex items-center px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer transition-colors gap-3"
               >
-                <Icon className="text-xl" />
-                <span className="ml-3 hidden group-hover:block whitespace-nowrap">{item.label}</span>
-              </Link>
-            );
-          })}
-        </nav>
+                <img 
+                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=256" 
+                  alt="Olabanji David T." 
+                  className="w-10 h-10 rounded-full object-cover border border-gray-200 dark:border-gray-700"
+                />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
+                    Olabanji David T.
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                    banjidhevid216@gmail.com
+                  </p>
+                </div>
+              </div>
+
+              {/* Sign Out dropdown */}
+              {showSignOut && (
+                <div className="absolute bottom-full left-0 right-0 mb-2 bg-white border border-gray-100 rounded-xl shadow-lg overflow-hidden z-50">
+                  <div className="px-4 py-3 border-b border-gray-100">
+                    <p className="text-xs text-gray-500">Signed in as</p>
+                    <p className="text-sm font-bold text-gray-900 truncate">banjidhevid216@gmail.com</p>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-2 px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
+                  >
+                    <FiLogOut className="w-4 h-4" />
+                    Sign Out
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <Link 
+              href="/support"
+              className="flex items-center px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/50 text-gray-500 dark:text-gray-400 transition-colors gap-3 text-sm font-medium mt-1"
+            >
+              <FiHelpCircle className="text-lg" />
+              <span>Support</span>
+            </Link>
+          </div>
+        </div>
       </div>
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header Section */}
-        <header className="bg-white dark:bg-gray-800 shadow-sm px-6 py-4 sticky top-0 z-10">
+        <header className="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 px-8 py-6 sticky top-0 z-10">
           <div className="flex justify-between items-center">
-            {/* Page Title */}
-            <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{router.pathname === '/' ? 'Dashboard' : router.pathname.substring(1).charAt(0).toUpperCase() + router.pathname.substring(1).slice(1).replace(/-/g, ' ')}</h1>
-            </div>
+            {/* Page Title & Subtitle */}
+            {(() => {
+              const pageMeta = {
+                '/dashboard': { title: 'Dashboard', sub: 'Track your applications, monitor progress, and stay in control of your job search.' },
+                '/growth': { title: 'Career Growth', sub: 'Upskill with personalized course recommendations and track your progress.' },
+                '/loop-lab': { title: 'Loop Lab', sub: 'Your personal interview preparation workspace.' },
+                '/billing': { title: 'Billing & Subscription', sub: 'Manage your plan, billing, and application volume with ease.' },
+                '/settings': { title: 'Settings', sub: 'Update your profile, preferences, and account details.' },
+                '/notifications': { title: 'Notification', sub: 'Track your applications, monitor progress, and stay in control of your job search.' },
+                '/applications/[id]': { title: 'Job Application', sub: 'Track your applications, monitor progress, and stay in control of your job search.' },
+              };
+              const meta = pageMeta[router.pathname] || {
+                title: router.pathname.substring(1).replace(/-/g, ' ').replace(/^\w/, (c) => c.toUpperCase()),
+                sub: '',
+              };
+              return (
+                <div className="flex flex-col">
+                  <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{meta.title}</h1>
+                  {meta.sub && <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{meta.sub}</p>}
+                </div>
+              );
+            })()}
             
-            <div className="flex items-center space-x-6">
-              {/* Notification Icons */}
-              <div className="flex items-center space-x-4">
-                {/* Cart Mini Component */}
-                <CartMini />
-                
-                {/* Notification Button */}
-                <div className="relative">
-                  <button 
-                    onClick={() => {
-                      setIsNotificationOpen(!isNotificationOpen);
-                      if (isChatOpen) setIsChatOpen(false);
-                      if (isGiftOpen) setIsGiftOpen(false);
-                    }}
-                    className="p-2 text-gray-400 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-100 bg-gray-100 dark:bg-gray-700 rounded-full transition-transform hover:scale-110"
-                    aria-label="Notifications"
-                  >
-                    <FiBell className="h-6 w-6" />
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                      12
-                    </span>
-                  </button>
-                  <NotificationDropdown
-                    isOpen={isNotificationOpen}
-                    onClose={() => setIsNotificationOpen(false)}
-                    notifications={notifications}
-                  />
-                </div>
-                
-                {/* Chat Button */}
-                <div className="relative">
-                  <button 
-                    onClick={() => {
-                      setIsChatOpen(!isChatOpen);
-                      if (isNotificationOpen) setIsNotificationOpen(false);
-                      if (isGiftOpen) setIsGiftOpen(false);
-                    }}
-                    className="p-2 text-gray-400 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-100 bg-gray-100 dark:bg-gray-700 rounded-full transition-transform hover:scale-110"
-                    aria-label="Messages"
-                  >
-                    <FiMessageSquare className="h-6 w-6" />
-                    <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                      5
-                    </span>
-                  </button>
-                  <ChatDropdown
-                    isOpen={isChatOpen}
-                    onClose={() => setIsChatOpen(false)}
-                    chatList={chatList}
-                  />
-                </div>
-                
-                {/* Gift Button */}
-                <div className="relative">
-                  <button 
-                    onClick={() => {
-                      setIsGiftOpen(!isGiftOpen);
-                      if (isNotificationOpen) setIsNotificationOpen(false);
-                      if (isChatOpen) setIsChatOpen(false);
-                    }}
-                    className="p-2 text-gray-400 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-100 bg-gray-100 dark:bg-gray-700 rounded-full transition-transform hover:scale-110"
-                    aria-label="Gifts"
-                  >
-                    <FiGift className="h-6 w-6" />
-                    <span className="absolute -top-1 -right-1 bg-purple-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                      2
-                    </span>
-                  </button>
-                  <GiftNotificationDropdown
-                    isOpen={isGiftOpen}
-                    onClose={() => setIsGiftOpen(false)}
-                  />
-                </div>
+            {/* Search and Notifications */}
+            <div className="flex items-center gap-4">
+              {/* Search Bar */}
+              <div className="relative w-80">
+                <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                  <FiSearch className="h-4 w-4" />
+                </span>
+                <input
+                  type="text"
+                  placeholder="Search Applications"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-700 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                />
               </div>
 
-              {/* User Profile */}
+              {/* Notification Button */}
               <div className="relative">
-                <div 
-                  className="flex items-center cursor-pointer group"
-                  onClick={() => {
-                    setIsProfileOpen(!isProfileOpen);
-                    if (isNotificationOpen) setIsNotificationOpen(false);
-                    if (isChatOpen) setIsChatOpen(false);
-                    if (isGiftOpen) setIsGiftOpen(false);
-                  }}
+                <button 
+                  onClick={() => setIsNotificationOpen(!isNotificationOpen)}
+                  className="p-2.5 text-gray-500 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700 rounded-xl transition-all border border-gray-200 dark:border-gray-600 relative"
+                  aria-label="Notifications"
                 >
-                  <span className="mr-4 text-right">
-                    <div className="text-sm text-gray-500 dark:text-gray-400">
-                      {getGreeting()}
-                      <span className="ml-2 inline-flex items-center">
-                        <VendorStatusBadge isOnline={isOnline} />
-                      </span>
-                    </div>
-                    <div className="text-md font-medium text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                      {profileData.name || 'Setup Profile'}
-                    </div>
-                  </span>
-                  <div className="h-12 w-12 rounded-full border-2 border-gray-200 dark:border-gray-700 group-hover:border-blue-600 dark:group-hover:border-blue-400 transition-colors overflow-hidden">
-                    <img 
-                      src={profileData.profileImageUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(profileData.name || 'User')}&background=random`} 
-                      alt={profileData.name || 'User'}
-                      className="h-full w-full object-cover"
-                      onError={(e) => {
-                        if (typeof window !== 'undefined') {
-                          e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(profileData.name || 'User')}&background=random`;
-                        }
-                      }}
-                    />
-                  </div>
-                </div>
-                <ProfileDropdown
-                  isOpen={isProfileOpen}
-                  onClose={() => setIsProfileOpen(false)}
-                  onLogout={handleLogout}
-                  userData={{
-                    name: profileData.name || 'Setup Your Profile',
-                    role: profileData.vendorName ? 'Manager at ' + profileData.vendorName : 'Restaurant Manager',
-                    email: profileData.email || 'Add your email',
-                    phone: profileData.phone || 'Add your phone',
-                    avatar: profileData.profileImageUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(profileData.name || 'User')}&background=random`,
-                    rating: profileData.averageRating || 0,
-                    accountStatus: profileData.verificationStatus || 'Pending',
-                    memberSince: profileData.memberSince || new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
-                  }}
+                  <FiBell className="h-5 w-5" />
+                  <span className="absolute top-1.5 right-1.5 bg-primary w-2 h-2 rounded-full"></span>
+                </button>
+                <NotificationDropdown
+                  isOpen={isNotificationOpen}
+                  onClose={() => setIsNotificationOpen(false)}
+                  notifications={notifications}
                 />
               </div>
             </div>
@@ -311,14 +265,9 @@ const DashboardLayout = ({ children, logout: logoutProp }) => {
         </header>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto px-6 py-8 bg-gray-50 dark:bg-gray-900">
+        <main className="flex-1 overflow-y-auto px-8 py-8 bg-gray-50 dark:bg-gray-900">
           {children}
         </main>
-
-        {/* Footer */}
-        <footer className="mt-auto text-center text-gray-500 dark:text-gray-400 text-sm py-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-          <p>Copyright © Designed & Developed by ignatius 2025</p>
-        </footer>
       </div>
     </div>
   );

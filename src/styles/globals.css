@@ -313,10 +313,10 @@
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-rgb: 248, 249, 250;
-  --primary-color: 37, 99, 235;
-  --secondary-color: 29, 78, 216;
-  --blue-light: 219, 234, 254;
-  --blue-accent: 59, 130, 246;
+  --primary-color: 30, 80, 195;
+  --secondary-color: 59, 130, 246;
+  --blue-light: 239, 246, 255;
+  --blue-accent: 30, 80, 195;
   --pink-accent: 219, 39, 119;
   --yellow-accent: 245, 158, 11;
   --red-accent: 239, 68, 68;
