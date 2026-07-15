@@ -120,7 +120,7 @@ export default function Dashboard() {
       <SEO title="Home" />
 
       {/* Stat Cards Container */}
-      <div className="grid grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-4 md:gap-6 mb-8 select-none">
+      <div className="grid grid-cols-5 gap-1 sm:gap-4 md:gap-6 mb-8 select-none">
         {stats.map((stat, i) => {
           const Icon = stat.icon;
           const isActive = activeFilter === stat.filterKey;
@@ -129,21 +129,21 @@ export default function Dashboard() {
             <div 
               key={i}
               onClick={() => setActiveFilter(stat.filterKey)}
-              className={`p-3 sm:p-6 bg-white dark:bg-gray-800 border rounded-2xl cursor-pointer hover:shadow-lg transition-all duration-200 flex flex-col justify-between ${
+              className={`p-1 sm:p-6 bg-white dark:bg-gray-800 border rounded-xl sm:rounded-2xl cursor-pointer hover:shadow-lg transition-all duration-200 flex flex-col justify-between overflow-hidden ${
                 isActive 
                   ? 'border-primary ring-2 ring-primary/10' 
                   : 'border-gray-100 dark:border-gray-700'
               }`}
             >
-              <div className="flex items-center justify-between mb-2 sm:mb-4">
-                <div className={`p-1.5 sm:p-2.5 rounded-xl ${stat.color}`}>
-                  <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
+              <div className="flex items-center justify-between mb-1 sm:mb-4">
+                <div className={`p-1 sm:p-2.5 rounded-lg sm:rounded-xl ${stat.color}`}>
+                  <Icon className="h-2.5 w-2.5 sm:h-5 sm:w-5" />
                 </div>
               </div>
-              <p className="text-xl sm:text-3xl font-extrabold text-gray-950 dark:text-white tracking-tight">
+              <p className="text-xs sm:text-3xl font-extrabold text-gray-950 dark:text-white tracking-tight">
                 {stat.count}
               </p>
-              <p className="text-[9px] sm:text-[10px] font-semibold text-gray-400 dark:text-gray-500 tracking-wider mt-1 sm:mt-1.5 uppercase leading-tight sm:leading-normal line-clamp-2">
+              <p className="text-[6px] sm:text-[10px] font-semibold text-gray-400 dark:text-gray-500 tracking-wider mt-0.5 sm:mt-1.5 uppercase leading-tight sm:leading-normal line-clamp-2">
                 {stat.label}
               </p>
             </div>
@@ -201,18 +201,18 @@ export default function Dashboard() {
       </div>
 
       {/* Applications Table */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden shadow-sm">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+      <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden shadow-sm overflow-x-hidden">
+        <div className="w-full">
+          <table className="w-full text-left border-collapse table-fixed sm:table-auto">
             <thead>
-              <tr className="bg-gray-50/50 dark:bg-gray-700/50 border-b border-gray-100 dark:border-gray-700 text-xs font-bold text-gray-500 dark:text-gray-400 select-none uppercase tracking-wider">
-                <th className="px-6 py-4.5">Application Number</th>
-                <th className="px-6 py-4.5">Application Date</th>
-                <th className="px-6 py-4.5">Company Name</th>
-                <th className="px-6 py-4.5">Position</th>
-                <th className="px-6 py-4.5">Resume</th>
-                <th className="px-6 py-4.5">Cover Letter</th>
-                <th className="px-6 py-4.5">Status</th>
+              <tr className="bg-gray-50/50 dark:bg-gray-700/50 border-b border-gray-100 dark:border-gray-700 text-[6px] sm:text-xs font-bold text-gray-500 dark:text-gray-400 select-none uppercase tracking-wider">
+                <th className="px-1 py-2 sm:px-6 sm:py-4.5 truncate">App #</th>
+                <th className="px-1 py-2 sm:px-6 sm:py-4.5 truncate">Date</th>
+                <th className="px-1 py-2 sm:px-6 sm:py-4.5 truncate">Company</th>
+                <th className="px-1 py-2 sm:px-6 sm:py-4.5 truncate">Position</th>
+                <th className="px-1 py-2 sm:px-6 sm:py-4.5 truncate">Resume</th>
+                <th className="px-1 py-2 sm:px-6 sm:py-4.5 truncate">Cover Ltr</th>
+                <th className="px-1 py-2 sm:px-6 sm:py-4.5 truncate">Status</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
@@ -220,40 +220,42 @@ export default function Dashboard() {
                 paginatedApps.map((app) => (
                   <tr 
                     key={app.id}
-                    className="hover:bg-gray-50/40 dark:hover:bg-gray-700/20 transition-colors text-sm text-gray-700 dark:text-gray-300"
+                    className="hover:bg-gray-50/40 dark:hover:bg-gray-700/20 transition-colors text-[7px] sm:text-sm text-gray-700 dark:text-gray-300"
                   >
-                    <td className="px-6 py-4.5 font-bold text-gray-900 dark:text-white">
+                    <td className="px-1 py-2 sm:px-6 sm:py-4.5 font-bold text-gray-900 dark:text-white truncate">
                       {app.number}
                     </td>
-                    <td className="px-6 py-4.5">
+                    <td className="px-1 py-2 sm:px-6 sm:py-4.5 truncate">
                       {app.date}
                     </td>
-                    <td className="px-6 py-4.5 font-semibold text-gray-900 dark:text-white">
-                      <Link href={`/applications/${app.number.replace('#', '')}`} className="hover:text-[#1E50C3] hover:underline transition-colors">
+                    <td className="px-1 py-2 sm:px-6 sm:py-4.5 font-semibold text-gray-900 dark:text-white truncate">
+                      <Link href={`/applications/${app.number.replace('#', '')}`} className="hover:text-[#1E50C3] hover:underline transition-colors block">
                         {app.company}
                       </Link>
                     </td>
-                    <td className="px-6 py-4.5">
+                    <td className="px-1 py-2 sm:px-6 sm:py-4.5 truncate">
                       {app.position}
                     </td>
-                    <td className="px-6 py-4.5 font-medium text-gray-600 dark:text-gray-400">
-                      <div className="flex items-center gap-1.5 hover:text-primary cursor-pointer transition-colors">
-                        <FiFile className="text-red-500" />
-                        <span>{app.resume}</span>
+                    <td className="px-1 py-2 sm:px-6 sm:py-4.5 font-medium text-gray-600 dark:text-gray-400 truncate">
+                      <div className="flex items-center gap-0.5 sm:gap-1.5 hover:text-primary cursor-pointer transition-colors">
+                        <FiFile className="text-red-500 w-2 h-2 sm:w-4 sm:h-4 shrink-0" />
+                        <span className="truncate">{app.resume}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4.5 font-medium text-gray-600 dark:text-gray-400">
+                    <td className="px-1 py-2 sm:px-6 sm:py-4.5 font-medium text-gray-600 dark:text-gray-400 truncate">
                       {app.coverLetter !== 'N/A' ? (
-                        <div className="flex items-center gap-1.5 hover:text-primary cursor-pointer transition-colors">
-                          <FiFile className="text-red-500" />
-                          <span>{app.coverLetter}</span>
+                        <div className="flex items-center gap-0.5 sm:gap-1.5 hover:text-primary cursor-pointer transition-colors">
+                          <FiFile className="text-red-500 w-2 h-2 sm:w-4 sm:h-4 shrink-0" />
+                          <span className="truncate">{app.coverLetter}</span>
                         </div>
                       ) : (
-                        <span className="text-gray-400 dark:text-gray-600">N/A</span>
+                        <span className="text-gray-400 dark:text-gray-500 italic">N/A</span>
                       )}
                     </td>
-                    <td className="px-6 py-4.5">
-                      {getStatusBadge(app.status)}
+                    <td className="px-1 py-2 sm:px-6 sm:py-4.5">
+                      <div className="scale-75 sm:scale-100 origin-left">
+                        {getStatusBadge(app.status)}
+                      </div>
                     </td>
                   </tr>
                 ))

@@ -28,7 +28,9 @@ function FeedbackPanel({ onClose }) {
   const [message, setMessage] = useState('');
 
   return (
-    <div className="fixed right-0 top-0 h-full w-full sm:w-[380px] bg-white shadow-2xl z-40 flex flex-col">
+    <div className="bg-white rounded-2xl shadow-xl flex flex-col overflow-hidden border border-gray-100 animate-slideInRight"
+      style={{ width: '320px', minHeight: '480px' }}
+    >
       {/* Close button — top right */}
       <div className="flex justify-end p-4">
         <button
@@ -167,63 +169,63 @@ export default function ApplicationDetailPage() {
           <div className="bg-white border border-gray-100 rounded-2xl px-6 sm:px-8 py-6 mb-6">
 
             {/* ── Top section: Info rows (left) + Buttons (right) ── */}
-            <div className="flex flex-col lg:flex-row gap-6">
+            <div className="flex flex-row gap-2 sm:gap-6 justify-between">
 
               {/* Left side: Info rows */}
               {/* Backend: All fields from GET /api/applications/:id response */}
-              <div className="flex-1 divide-y divide-gray-100">
+              <div className="flex-1 divide-y divide-gray-100 min-w-0">
 
                 {/* Status */}
-                <div className="flex items-center py-3 gap-4 sm:gap-6">
-                  <div className="flex items-center gap-2 w-32 sm:w-44 text-sm text-gray-500 shrink-0">
-                    <FiRefreshCw className="w-4 h-4 flex-shrink-0" />
+                <div className="flex items-center py-2 sm:py-3 gap-2 sm:gap-6">
+                  <div className="flex items-center gap-1 sm:gap-2 w-20 sm:w-44 text-[10px] sm:text-sm text-gray-500 shrink-0 truncate">
+                    <FiRefreshCw className="w-3 h-3 sm:w-4 sm:h-4 shrink-0" />
                     Status
                   </div>
                   {/* Backend: status field — possible values: Pending, Interview, Offered, Rejected */}
-                  <span className="px-3 py-1 rounded-md text-xs font-semibold bg-yellow-100 text-yellow-700 border border-yellow-200">
+                  <span className="px-2 py-0.5 sm:px-3 sm:py-1 rounded-md text-[9px] sm:text-xs font-semibold bg-yellow-100 text-yellow-700 border border-yellow-200 truncate">
                     {app.status}
                   </span>
                 </div>
 
                 {/* Role */}
-                <div className="flex items-center py-3 gap-4 sm:gap-6">
-                  <div className="flex items-center gap-2 w-32 sm:w-44 text-sm text-gray-500 shrink-0">
-                    <FiBriefcase className="w-4 h-4 flex-shrink-0" />
+                <div className="flex items-center py-2 sm:py-3 gap-2 sm:gap-6">
+                  <div className="flex items-center gap-1 sm:gap-2 w-20 sm:w-44 text-[10px] sm:text-sm text-gray-500 shrink-0 truncate">
+                    <FiBriefcase className="w-3 h-3 sm:w-4 sm:h-4 shrink-0" />
                     Role
                   </div>
-                  <span className="text-sm text-gray-800">{app.role}</span>
+                  <span className="text-[10px] sm:text-sm text-gray-800 truncate">{app.role}</span>
                 </div>
 
                 {/* Dates */}
-                <div className="flex items-center py-3 gap-4 sm:gap-6">
-                  <div className="flex items-center gap-2 w-32 sm:w-44 text-sm text-gray-500 shrink-0">
-                    <FiCalendar className="w-4 h-4 flex-shrink-0" />
+                <div className="flex items-center py-2 sm:py-3 gap-2 sm:gap-6">
+                  <div className="flex items-center gap-1 sm:gap-2 w-20 sm:w-44 text-[10px] sm:text-sm text-gray-500 shrink-0 truncate">
+                    <FiCalendar className="w-3 h-3 sm:w-4 sm:h-4 shrink-0" />
                     Dates
                   </div>
-                  <span className="text-sm text-gray-800">{app.date}</span>
+                  <span className="text-[10px] sm:text-sm text-gray-800 truncate">{app.date}</span>
                 </div>
 
                 {/* Application Time */}
-                <div className="flex items-center py-3 gap-4 sm:gap-6">
-                  <div className="flex items-center gap-2 w-32 sm:w-44 text-sm text-gray-500 shrink-0">
-                    <FiClock className="w-4 h-4 flex-shrink-0" />
+                <div className="flex items-center py-2 sm:py-3 gap-2 sm:gap-6">
+                  <div className="flex items-center gap-1 sm:gap-2 w-20 sm:w-44 text-[10px] sm:text-sm text-gray-500 shrink-0 truncate">
+                    <FiClock className="w-3 h-3 sm:w-4 sm:h-4 shrink-0" />
                     Application Time
                   </div>
-                  <span className="text-sm text-gray-800">{app.applicationTime}</span>
+                  <span className="text-[10px] sm:text-sm text-gray-800 truncate">{app.applicationTime}</span>
                 </div>
 
                 {/* Preferences */}
-                <div className="flex items-center py-3 gap-4 sm:gap-6">
-                  <div className="flex items-center gap-2 w-32 sm:w-44 text-sm text-gray-500 shrink-0">
-                    <FiStar className="w-4 h-4 flex-shrink-0" />
+                <div className="flex items-center py-2 sm:py-3 gap-2 sm:gap-6">
+                  <div className="flex items-center gap-1 sm:gap-2 w-20 sm:w-44 text-[10px] sm:text-sm text-gray-500 shrink-0 truncate">
+                    <FiStar className="w-3 h-3 sm:w-4 sm:h-4 shrink-0" />
                     Preferences
                   </div>
                   {/* Backend: preferences array — each item: { label, color } */}
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1 sm:gap-2">
                     {app.preferences.map((p) => (
                       <span
                         key={p.label}
-                        className={`px-3 py-1 rounded-md text-xs font-semibold ${p.color}`}
+                        className={`px-1.5 py-0.5 sm:px-3 sm:py-1 rounded-md text-[8px] sm:text-xs font-semibold ${p.color} whitespace-nowrap`}
                       >
                         {p.label}
                       </span>
@@ -232,9 +234,9 @@ export default function ApplicationDetailPage() {
                 </div>
 
                 {/* Job Link */}
-                <div className="flex items-center py-3 gap-4 sm:gap-6">
-                  <div className="flex items-center gap-2 w-32 sm:w-44 text-sm text-gray-500 shrink-0">
-                    <FiLink className="w-4 h-4 flex-shrink-0" />
+                <div className="flex items-center py-2 sm:py-3 gap-2 sm:gap-6">
+                  <div className="flex items-center gap-1 sm:gap-2 w-20 sm:w-44 text-[10px] sm:text-sm text-gray-500 shrink-0 truncate">
+                    <FiLink className="w-3 h-3 sm:w-4 sm:h-4 shrink-0" />
                     Job Link
                   </div>
                   {/* Security: Validate URL format on backend, use rel="noopener noreferrer" */}
@@ -242,30 +244,36 @@ export default function ApplicationDetailPage() {
                     href={`https://${app.jobLink}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-[#1E50C3] hover:underline break-all"
+                    className="text-[10px] sm:text-sm text-[#1E50C3] hover:underline truncate block"
                   >
                     {app.jobLink}
                   </a>
                 </div>
               </div>
 
-              {/* Right side: Action buttons — aligned to bottom-right */}
+              {/* Right side: Action buttons OR Feedback History panel */}
               {/* Backend: PUT /api/applications/:id/approve */}
               {/* Backend: Opens feedback panel for POST /api/applications/:id/feedback */}
-              <div className="flex flex-row lg:flex-col items-end justify-end gap-3 shrink-0">
-                <button
-                  onClick={() => setIsApproveModalOpen(true)}
-                  className="px-5 py-2.5 rounded-xl bg-[#1E50C3] text-white text-sm font-semibold hover:bg-[#1A45A7] transition-colors whitespace-nowrap"
-                >
-                  Approve Application
-                </button>
-                <button
-                  onClick={() => setShowFeedback(true)}
-                  className="px-5 py-2.5 rounded-xl border border-[#1E50C3] text-[#1E50C3] text-sm font-semibold hover:bg-blue-50 transition-colors whitespace-nowrap"
-                >
-                  Send Feedback
-                </button>
-              </div>
+              {!showFeedback ? (
+                <div className="flex flex-row items-end justify-end gap-1 sm:gap-3 shrink-0 transition-opacity duration-300">
+                  <button
+                    onClick={() => setIsApproveModalOpen(true)}
+                    className="px-2 py-1.5 sm:px-5 sm:py-2.5 rounded-md sm:rounded-xl bg-[#1E50C3] text-white text-[9px] sm:text-sm font-semibold hover:bg-[#1A45A7] transition-colors whitespace-nowrap"
+                  >
+                    Approve Application
+                  </button>
+                  <button
+                    onClick={() => setShowFeedback(true)}
+                    className="px-2 py-1.5 sm:px-5 sm:py-2.5 rounded-md sm:rounded-xl border border-[#1E50C3] text-[#1E50C3] text-[9px] sm:text-sm font-semibold hover:bg-blue-50 transition-colors whitespace-nowrap"
+                  >
+                    Send Feedback
+                  </button>
+                </div>
+              ) : (
+                <div className="shrink-0 scale-75 sm:scale-100 origin-right">
+                  <FeedbackPanel onClose={() => setShowFeedback(false)} />
+                </div>
+              )}
             </div>
 
             {/* ── Divider between info and PDFs ── */}
@@ -356,18 +364,7 @@ export default function ApplicationDetailPage() {
           </div>
         </div>
 
-        {/* ── Feedback History Side Panel ── */}
-        {/* Renders as a slide-in overlay on the right side of the screen */}
-        {showFeedback && (
-          <>
-            {/* Backdrop overlay */}
-            <div
-              className="fixed inset-0 bg-black/20 z-30"
-              onClick={() => setShowFeedback(false)}
-            />
-            <FeedbackPanel onClose={() => setShowFeedback(false)} />
-          </>
-        )}
+
 
         {/* ── Approve Modal ── */}
         {/* Backend: PUT /api/applications/:id/approve */}
