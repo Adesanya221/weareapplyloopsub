@@ -205,7 +205,6 @@ export const AuthProvider = ({ children }) => {
   const updateProfile = async (profileData) => {
     try {
       setError(null);
-      setIsLoading(true);
       
       // Use the authService to update profile
       const updatedUserData = await authService.updateProfile(profileData);
@@ -222,8 +221,6 @@ export const AuthProvider = ({ children }) => {
       console.error('Profile update failed:', err);
       setError(err.message || 'Failed to update profile');
       return { success: false, error: err.message || 'Failed to update profile' };
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -231,7 +228,6 @@ export const AuthProvider = ({ children }) => {
   const changePassword = async (passwordData) => {
     try {
       setError(null);
-      setIsLoading(true);
       
       // Use the authService to change password
       const response = await authService.changePassword(passwordData);
@@ -240,8 +236,6 @@ export const AuthProvider = ({ children }) => {
       console.error('Password change failed:', err);
       setError(err.message || 'Failed to change password');
       return { success: false, error: err.message || 'Failed to change password' };
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -249,7 +243,6 @@ export const AuthProvider = ({ children }) => {
   const requestPasswordReset = async (email) => {
     try {
       setError(null);
-      setIsLoading(true);
       
       // Use the authService to request password reset
       const response = await authService.requestPasswordReset(email);
@@ -258,8 +251,6 @@ export const AuthProvider = ({ children }) => {
       console.error('Password reset request failed:', err);
       setError(err.message || 'Failed to request password reset');
       return { success: false, error: err.message || 'Failed to request password reset' };
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -267,7 +258,6 @@ export const AuthProvider = ({ children }) => {
   const resetPassword = async (resetData) => {
     try {
       setError(null);
-      setIsLoading(true);
       
       // Use the authService to reset password
       const response = await authService.resetPassword(resetData);
@@ -276,8 +266,6 @@ export const AuthProvider = ({ children }) => {
       console.error('Password reset failed:', err);
       setError(err.message || 'Failed to reset password');
       return { success: false, error: err.message || 'Failed to reset password' };
-    } finally {
-      setIsLoading(false);
     }
   };
 
