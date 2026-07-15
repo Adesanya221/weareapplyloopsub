@@ -169,7 +169,7 @@ export default function ApplicationDetailPage() {
           <div className="bg-white border border-gray-100 rounded-2xl px-6 sm:px-8 py-6 mb-6">
 
             {/* ── Top section: Info rows (left) + Buttons (right) ── */}
-            <div className="flex flex-row gap-2 sm:gap-6 justify-between">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-between">
 
               {/* Left side: Info rows */}
               {/* Backend: All fields from GET /api/applications/:id response */}
