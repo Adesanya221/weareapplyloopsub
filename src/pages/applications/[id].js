@@ -151,7 +151,7 @@ export default function ApplicationDetailPage() {
           {!showStickyNote && (
             <button
               onClick={() => setShowStickyNote(true)}
-              className="absolute -right-4 sm:-right-16 top-6 w-10 h-10 flex items-center justify-center text-blue-600 hover:scale-110 transition-transform"
+              className="absolute -right-4 sm:-right-16 top-6 w-10 h-10 hidden sm:flex items-center justify-center text-blue-600 hover:scale-110 transition-transform"
             >
               <span className="text-2xl drop-shadow-md">📌</span>
             </button>
@@ -177,46 +177,46 @@ export default function ApplicationDetailPage() {
 
                 {/* Status */}
                 <div className="flex items-center py-2 sm:py-3 gap-2 sm:gap-6">
-                  <div className="flex items-center gap-1 sm:gap-2 w-20 sm:w-44 text-[10px] sm:text-sm text-gray-500 shrink-0 truncate">
+                  <div className="flex items-center gap-1 sm:gap-2 w-24 sm:w-44 text-[10px] sm:text-sm text-gray-500 shrink-0">
                     <FiRefreshCw className="w-3 h-3 sm:w-4 sm:h-4 shrink-0" />
                     Status
                   </div>
                   {/* Backend: status field — possible values: Pending, Interview, Offered, Rejected */}
-                  <span className="px-2 py-0.5 sm:px-3 sm:py-1 rounded-md text-[9px] sm:text-xs font-semibold bg-yellow-100 text-yellow-700 border border-yellow-200 truncate">
+                  <span className="px-2 py-0.5 sm:px-3 sm:py-1 rounded-md text-[9px] sm:text-xs font-semibold bg-yellow-100 text-yellow-700 border border-yellow-200">
                     {app.status}
                   </span>
                 </div>
 
                 {/* Role */}
                 <div className="flex items-center py-2 sm:py-3 gap-2 sm:gap-6">
-                  <div className="flex items-center gap-1 sm:gap-2 w-20 sm:w-44 text-[10px] sm:text-sm text-gray-500 shrink-0 truncate">
+                  <div className="flex items-center gap-1 sm:gap-2 w-24 sm:w-44 text-[10px] sm:text-sm text-gray-500 shrink-0">
                     <FiBriefcase className="w-3 h-3 sm:w-4 sm:h-4 shrink-0" />
                     Role
                   </div>
-                  <span className="text-[10px] sm:text-sm text-gray-800 truncate">{app.role}</span>
+                  <span className="text-[10px] sm:text-sm text-gray-800 break-words">{app.role}</span>
                 </div>
 
                 {/* Dates */}
                 <div className="flex items-center py-2 sm:py-3 gap-2 sm:gap-6">
-                  <div className="flex items-center gap-1 sm:gap-2 w-20 sm:w-44 text-[10px] sm:text-sm text-gray-500 shrink-0 truncate">
+                  <div className="flex items-center gap-1 sm:gap-2 w-24 sm:w-44 text-[10px] sm:text-sm text-gray-500 shrink-0">
                     <FiCalendar className="w-3 h-3 sm:w-4 sm:h-4 shrink-0" />
                     Dates
                   </div>
-                  <span className="text-[10px] sm:text-sm text-gray-800 truncate">{app.date}</span>
+                  <span className="text-[10px] sm:text-sm text-gray-800 break-words">{app.date}</span>
                 </div>
 
                 {/* Application Time */}
                 <div className="flex items-center py-2 sm:py-3 gap-2 sm:gap-6">
-                  <div className="flex items-center gap-1 sm:gap-2 w-20 sm:w-44 text-[10px] sm:text-sm text-gray-500 shrink-0 truncate">
+                  <div className="flex items-center gap-1 sm:gap-2 w-24 sm:w-44 text-[10px] sm:text-sm text-gray-500 shrink-0">
                     <FiClock className="w-3 h-3 sm:w-4 sm:h-4 shrink-0" />
                     Application Time
                   </div>
-                  <span className="text-[10px] sm:text-sm text-gray-800 truncate">{app.applicationTime}</span>
+                  <span className="text-[10px] sm:text-sm text-gray-800 break-words">{app.applicationTime}</span>
                 </div>
 
                 {/* Preferences */}
                 <div className="flex items-center py-2 sm:py-3 gap-2 sm:gap-6">
-                  <div className="flex items-center gap-1 sm:gap-2 w-20 sm:w-44 text-[10px] sm:text-sm text-gray-500 shrink-0 truncate">
+                  <div className="flex items-center gap-1 sm:gap-2 w-24 sm:w-44 text-[10px] sm:text-sm text-gray-500 shrink-0">
                     <FiStar className="w-3 h-3 sm:w-4 sm:h-4 shrink-0" />
                     Preferences
                   </div>
@@ -235,7 +235,7 @@ export default function ApplicationDetailPage() {
 
                 {/* Job Link */}
                 <div className="flex items-center py-2 sm:py-3 gap-2 sm:gap-6">
-                  <div className="flex items-center gap-1 sm:gap-2 w-20 sm:w-44 text-[10px] sm:text-sm text-gray-500 shrink-0 truncate">
+                  <div className="flex items-center gap-1 sm:gap-2 w-24 sm:w-44 text-[10px] sm:text-sm text-gray-500 shrink-0">
                     <FiLink className="w-3 h-3 sm:w-4 sm:h-4 shrink-0" />
                     Job Link
                   </div>
@@ -244,7 +244,7 @@ export default function ApplicationDetailPage() {
                     href={`https://${app.jobLink}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[10px] sm:text-sm text-[#1E50C3] hover:underline truncate block"
+                    className="text-[10px] sm:text-sm text-[#1E50C3] hover:underline break-words whitespace-normal break-all block w-full"
                   >
                     {app.jobLink}
                   </a>
