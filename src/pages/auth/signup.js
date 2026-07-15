@@ -143,7 +143,7 @@ export default function Signup() {
               <img
                 src="/logo.svg"
                 alt="ApplyLoop Logo"
-                className="w-10 h-10 rounded-full object-cover select-none shadow-md"
+                className="w-10 h-10 rounded-full object-cover select-none"
               />
               <span className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                 ApplyLoop
