@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { 
@@ -33,6 +33,14 @@ export default function Dashboard() {
   const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
   const [isAddJobModalOpen, setIsAddJobModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [updateSlideIndex, setUpdateSlideIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setUpdateSlideIndex((prev) => (prev + 1) % 3);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, []);
 
   // Status Badge styles helper
   const getStatusBadge = (status) => {
@@ -144,7 +152,7 @@ export default function Dashboard() {
       </div>
 
       {/* Important Updates */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6 md:p-8 mb-8 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 border border-[#1E50C3] rounded-2xl p-6 md:p-8 mb-8 shadow-sm">
         <div className="flex items-center gap-4 mb-6">
           <div className="bg-[#1E50C3] p-3 rounded-xl flex items-center justify-center shrink-0">
             <HiOutlineSpeakerphone className="text-white w-6 h-6" />
@@ -170,9 +178,14 @@ export default function Dashboard() {
 
         {/* Carousel Indicators */}
         <div className="flex justify-center items-center gap-2 mt-4">
-          <span className="w-2 h-2 rounded-full bg-[#1E50C3]" />
-          <span className="w-2 h-2 rounded-full bg-blue-200 dark:bg-blue-900" />
-          <span className="w-2 h-2 rounded-full bg-blue-200 dark:bg-blue-900" />
+          {[0, 1, 2].map((idx) => (
+            <span 
+              key={idx}
+              className={`w-2 h-2 rounded-full transition-colors ${
+                updateSlideIndex === idx ? 'bg-[#1E50C3]' : 'bg-blue-200 dark:bg-blue-900'
+              }`}
+            />
+          ))}
         </div>
       </div>
 
