@@ -155,7 +155,7 @@ export default function GrowthPage() {
       <DashboardLayout>
         <div className="max-w-4xl space-y-6">
           {/* ── Stats row ── */}
-          <div className="flex gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {STATS.map((s) => (
               <StatCard key={s.label} {...s} />
             ))}
@@ -174,9 +174,9 @@ export default function GrowthPage() {
           {/* ── Recommended Courses ── */}
           <div className="bg-white border border-gray-100 rounded-2xl px-6 py-5">
             {/* Header + filters */}
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
               <h2 className="text-base font-semibold text-gray-900">Recommended Courses</h2>
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                 <div className="flex bg-gray-50 border border-gray-100 rounded-xl p-1 gap-1">
                   {FILTER_TABS.map((tab) => (
                     <button
@@ -199,7 +199,7 @@ export default function GrowthPage() {
             </div>
 
             {/* Course cards grid */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {filteredCourses.map((course) => (
                 <CourseCard key={course.id} course={course} />
               ))}

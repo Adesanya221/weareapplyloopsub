@@ -11,7 +11,8 @@ import {
   FiHelpCircle,
   FiSearch,
   FiUser,
-  FiLogOut
+  FiLogOut,
+  FiMenu
 } from 'react-icons/fi';
 
 import NotificationDropdown from './NotificationDropdown';
@@ -24,6 +25,7 @@ const DashboardLayout = ({ children, logout: logoutProp }) => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [showSignOut, setShowSignOut] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isDarkMode } = useTheme();
   const { user, logout: authLogout } = useAuth();
   
@@ -109,9 +111,17 @@ const DashboardLayout = ({ children, logout: logoutProp }) => {
   ];
   
   return (
-    <div className="flex h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <div className="flex h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 overflow-hidden">
+      {/* Mobile Sidebar Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/30 z-30 md:hidden backdrop-blur-sm" 
+          onClick={() => setIsMobileMenuOpen(false)} 
+        />
+      )}
+
       {/* Sidebar */}
-      <div className="w-[280px] bg-white dark:bg-gray-800 flex flex-col justify-between py-6 border-r border-gray-200 dark:border-gray-700 transition-all duration-300">
+      <div className={`fixed inset-y-0 left-0 z-40 transform ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:relative md:translate-x-0 w-[280px] bg-white dark:bg-gray-800 flex flex-col justify-between py-6 border-r border-gray-200 dark:border-gray-700 transition-transform duration-300 shadow-2xl md:shadow-none h-full`}>
         <div>
           {/* Logo */}
           <div className="flex items-center px-6 mb-8 gap-3">
@@ -135,6 +145,7 @@ const DashboardLayout = ({ children, logout: logoutProp }) => {
                 <Link 
                   key={index}
                   href={item.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
                   className={`flex items-center px-4 py-3 rounded-xl transition-all font-medium text-sm gap-3 ${
                     isActive 
                       ? 'bg-blue-50 text-primary dark:bg-blue-900/30 dark:text-blue-400' 
@@ -205,35 +216,45 @@ const DashboardLayout = ({ children, logout: logoutProp }) => {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header Section */}
-        <header className="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 px-8 py-6 sticky top-0 z-10">
-          <div className="flex justify-between items-center">
-            {/* Page Title & Subtitle */}
-            {(() => {
-              const pageMeta = {
-                '/dashboard': { title: 'Dashboard', sub: 'Track your applications, monitor progress, and stay in control of your job search.' },
-                '/growth': { title: 'Career Growth', sub: 'Upskill with personalized course recommendations and track your progress.' },
-                '/loop-lab': { title: 'Loop Lab', sub: 'Your personal interview preparation workspace.' },
-                '/billing': { title: 'Billing & Subscription', sub: 'Manage your plan, billing, and application volume with ease.' },
-                '/settings': { title: 'Settings', sub: 'Update your profile, preferences, and account details.' },
-                '/notifications': { title: 'Notification', sub: 'Track your applications, monitor progress, and stay in control of your job search.' },
-                '/applications/[id]': { title: 'Job Application', sub: 'Track your applications, monitor progress, and stay in control of your job search.' },
-              };
-              const meta = pageMeta[router.pathname] || {
-                title: router.pathname.substring(1).replace(/-/g, ' ').replace(/^\w/, (c) => c.toUpperCase()),
-                sub: '',
-              };
-              return (
-                <div className="flex flex-col">
-                  <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{meta.title}</h1>
-                  {meta.sub && <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{meta.sub}</p>}
-                </div>
-              );
-            })()}
+        <header className="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 px-4 md:px-8 py-4 md:py-6 sticky top-0 z-10">
+          <div className="flex justify-between items-center gap-4">
+            {/* Mobile Menu & Title */}
+            <div className="flex items-center gap-3">
+              <button 
+                onClick={() => setIsMobileMenuOpen(true)}
+                className="p-2 -ml-2 text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 rounded-lg md:hidden"
+              >
+                <FiMenu className="w-6 h-6" />
+              </button>
+              
+              {/* Page Title & Subtitle */}
+              {(() => {
+                const pageMeta = {
+                  '/dashboard': { title: 'Dashboard', sub: 'Track your applications, monitor progress, and stay in control of your job search.' },
+                  '/growth': { title: 'Career Growth', sub: 'Upskill with personalized course recommendations and track your progress.' },
+                  '/loop-lab': { title: 'Loop Lab', sub: 'Your personal interview preparation workspace.' },
+                  '/billing': { title: 'Billing & Subscription', sub: 'Manage your plan, billing, and application volume with ease.' },
+                  '/settings': { title: 'Settings', sub: 'Update your profile, preferences, and account details.' },
+                  '/notifications': { title: 'Notification', sub: 'Track your applications, monitor progress, and stay in control of your job search.' },
+                  '/applications/[id]': { title: 'Job Application', sub: 'Track your applications, monitor progress, and stay in control of your job search.' },
+                };
+                const meta = pageMeta[router.pathname] || {
+                  title: router.pathname.substring(1).replace(/-/g, ' ').replace(/^\w/, (c) => c.toUpperCase()),
+                  sub: '',
+                };
+                return (
+                  <div className="flex flex-col min-w-0">
+                    <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-100 truncate">{meta.title}</h1>
+                    {meta.sub && <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 md:mt-1 hidden sm:block truncate">{meta.sub}</p>}
+                  </div>
+                );
+              })()}
+            </div>
             
             {/* Search and Notifications */}
-            <div className="flex items-center gap-4">
-              {/* Search Bar */}
-              <div className="relative w-80">
+            <div className="flex items-center gap-2 md:gap-4 shrink-0">
+              {/* Search Bar (Hidden on mobile) */}
+              <div className="relative w-48 lg:w-80 hidden md:block">
                 <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                   <FiSearch className="h-4 w-4" />
                 </span>
@@ -243,6 +264,11 @@ const DashboardLayout = ({ children, logout: logoutProp }) => {
                   className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-700 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                 />
               </div>
+
+              {/* Mobile Search Button (Visible only on mobile) */}
+              <button className="md:hidden p-2.5 text-gray-500 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700 rounded-xl transition-all border border-gray-200 dark:border-gray-600">
+                <FiSearch className="h-5 w-5" />
+              </button>
 
               {/* Notification Button */}
               <div className="relative">
@@ -265,7 +291,7 @@ const DashboardLayout = ({ children, logout: logoutProp }) => {
         </header>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto px-8 py-8 bg-gray-50 dark:bg-gray-900">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-8 py-6 md:py-8 bg-gray-50 dark:bg-gray-900">
           {children}
         </main>
       </div>

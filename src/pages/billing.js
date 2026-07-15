@@ -112,7 +112,7 @@ function ChangePlanView({ onBack }) {
       </button>
 
       {/* Plan cards */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {PLANS.map((plan) => {
           const isCurrent = plan.name === selectedPlan || plan.current;
           return (
@@ -207,8 +207,8 @@ export default function BillingPage() {
         {view === 'main' && (
           <div className="max-w-4xl space-y-6">
             {/* Plan Card */}
-            <div className="bg-white border border-gray-100 rounded-2xl px-8 py-6">
-              <div className="flex gap-10">
+            <div className="bg-white border border-gray-100 rounded-2xl px-6 sm:px-8 py-6">
+              <div className="flex flex-col sm:flex-row gap-6 sm:gap-10">
                 {/* Left: plan name + usage */}
                 <div className="flex-1">
                   <p className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-1">Plan</p>

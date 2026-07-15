@@ -111,7 +111,7 @@ export default function Dashboard() {
       <SEO title="Home" />
 
       {/* Stat Cards Container */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8 select-none">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 mb-8 select-none">
         {stats.map((stat, i) => {
           const Icon = stat.icon;
           const isActive = activeFilter === stat.filterKey;
@@ -143,7 +143,7 @@ export default function Dashboard() {
       </div>
 
       {/* Interactive Updates / Action Bar */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6 mb-8 flex justify-between items-center shadow-sm">
+      <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-5 md:p-6 mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-sm">
         <div>
           <h3 className="text-base font-bold text-gray-950 dark:text-white">
             Job Tracker Updates

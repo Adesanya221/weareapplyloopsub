@@ -151,7 +151,7 @@ export default function LoopLabPage() {
             {INTERVIEWS.map((iv) => (
               <div
                 key={iv.id}
-                className="flex items-center justify-between px-6 py-5 hover:bg-gray-50/60 transition-colors"
+                className="flex flex-col sm:flex-row items-start sm:items-center justify-between px-6 py-5 gap-4 sm:gap-0 hover:bg-gray-50/60 transition-colors"
               >
                 {/* Left: company + role + meta */}
                 <div className="flex flex-col gap-1.5 min-w-0">
@@ -181,7 +181,7 @@ export default function LoopLabPage() {
                 </div>
 
                 {/* Right: days until + button */}
-                <div className="flex items-center gap-4 flex-shrink-0 ml-4">
+                <div className="flex w-full sm:w-auto items-center justify-between sm:justify-end gap-4 flex-shrink-0 sm:ml-4 border-t sm:border-0 border-gray-100 pt-4 sm:pt-0 mt-2 sm:mt-0">
                   <span className="text-sm text-gray-500 whitespace-nowrap">
                     <span className="font-semibold text-gray-700">{iv.daysUntil} days</span> until
                   </span>
