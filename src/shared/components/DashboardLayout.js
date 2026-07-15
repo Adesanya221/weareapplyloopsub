@@ -255,8 +255,8 @@ const DashboardLayout = ({ children, logout: logoutProp }) => {
             <div className="flex items-center gap-2 md:gap-4 shrink-0">
               {/* Search Bar (Hidden on mobile) */}
               <div className="relative w-48 lg:w-80 hidden md:block">
-                <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
-                  <FiSearch className="h-4 w-4" />
+                <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                  <img src="/logo.svg" alt="ApplyLoop" className="h-4 w-4 rounded-full object-cover" />
                 </span>
                 <input
                   type="text"
