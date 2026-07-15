@@ -9,13 +9,13 @@ const AUTH_BG = {
 };
 
 const LOGO = (
-  <div className="flex items-center justify-center gap-3 mb-2">
+  <div className="flex items-center justify-center gap-2 mb-3">
     <img
       src="/logo.svg"
       alt="ApplyLoop Logo"
-      className="w-10 h-10 rounded-full object-cover select-none"
+      className="w-6 h-6 object-contain select-none"
     />
-    <span className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">ApplyLoop</span>
+    <span className="text-[15px] font-bold text-gray-900">ApplyLoop</span>
   </div>
 );
 
@@ -96,25 +96,25 @@ export default function ForgotPassword() {
       </Head>
 
       <div
-        className="min-h-screen flex items-center justify-center p-4 transition-colors duration-300"
-        style={{ background: 'radial-gradient(100% 100% at 50% 0%, #EBF4FF 0%, #F9FAFB 100%)' }}
+        className="min-h-screen flex items-center justify-center p-4 bg-gray-50"
+        style={AUTH_BG}
       >
         {/* ─── STEP 1: Enter Email ─── */}
         {step === 1 && (
-          <div className="w-[494px] min-h-[612px] bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-[18px] shadow-2xl p-10 flex flex-col justify-between transition-all">
-            <div className="text-center space-y-6">
+          <div className="w-[440px] bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-10 flex flex-col gap-8">
+            <div className="text-center space-y-4">
               {LOGO}
-              <h2 className="text-3xl font-extrabold text-gray-950 dark:text-white tracking-tight">
+              <h2 className="text-[22px] font-bold text-gray-900">
                 Forgot Password
               </h2>
-              <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed max-w-sm mx-auto">
+              <p className="text-[13px] text-gray-500 leading-relaxed max-w-[280px] mx-auto">
                 Please provide your email address below so we can send you a recovery code.
               </p>
             </div>
 
-            <form onSubmit={handleEmailSubmit} className="space-y-6 my-auto pt-6">
+            <form onSubmit={handleEmailSubmit} className="flex flex-col gap-6">
               <div>
-                <label htmlFor="fp-email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="fp-email" className="block text-[12px] text-gray-700 mb-2">
                   Email Address
                 </label>
                 <input
@@ -122,26 +122,26 @@ export default function ForgotPassword() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className={`block w-full px-4 py-3.5 border ${emailError ? 'border-red-300 focus:ring-red-500' : 'border-gray-200 dark:border-gray-700 focus:ring-[#1E50C3]'} rounded-xl bg-gray-50/50 dark:bg-gray-800/50 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all`}
+                  className={`block w-full px-4 py-3 border ${emailError ? 'border-red-400' : 'border-gray-100'} rounded-xl bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#1E50C3] focus:ring-1 focus:ring-[#1E50C3] transition-all text-[13px]`}
                   placeholder="banjidhevid216@gmail.com"
                 />
-                {emailError && <p className="mt-1.5 text-xs text-red-600 dark:text-red-400">{emailError}</p>}
+                {emailError && <p className="mt-1 text-[11px] text-red-500">{emailError}</p>}
               </div>
 
               <div className="pt-2">
                 <button
                   type="submit"
                   disabled={isLoadingEmail}
-                  className="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl text-white font-semibold bg-[#1E50C3] hover:bg-[#1A45A7] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1E50C3] shadow-lg shadow-blue-500/10 dark:shadow-none hover:shadow-xl hover:shadow-blue-500/25 transition-all active:scale-[0.99] disabled:opacity-50"
+                  className="w-full flex justify-center py-3.5 px-4 rounded-full text-white font-medium bg-[#2453CA] hover:bg-[#1E46AA] transition-colors disabled:opacity-50 text-[14px]"
                 >
                   {isLoadingEmail ? 'Sending...' : 'Confirm'}
                 </button>
               </div>
             </form>
 
-            <div className="text-center pt-4">
-              <Link href="/auth/login" className="text-sm font-medium text-gray-500 hover:text-[#1E50C3] dark:text-gray-400 dark:hover:text-blue-400 transition-colors">
-                Back to Login
+            <div className="text-center mt-2">
+              <Link href="/auth/forgot-password" className="text-[13px] text-gray-500 hover:text-gray-700 transition-colors">
+                Forgot Password?
               </Link>
             </div>
           </div>
@@ -149,21 +149,20 @@ export default function ForgotPassword() {
 
         {/* ─── STEP 2: Enter Recovery Code ─── */}
         {step === 2 && (
-          <div className="w-[494px] min-h-[612px] bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-[18px] shadow-2xl p-10 flex flex-col justify-between transition-all">
-            <div className="text-center space-y-6">
+          <div className="w-[440px] bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-10 flex flex-col gap-8">
+            <div className="text-center space-y-4">
               {LOGO}
-              <h2 className="text-3xl font-extrabold text-gray-950 dark:text-white tracking-tight">
+              <h2 className="text-[22px] font-bold text-gray-900">
                 Forgot Password
               </h2>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                A code has been sent to{' '}
-                <span className="font-bold text-gray-800 dark:text-gray-200">{email}</span>
+              <p className="text-[13px] text-gray-800">
+                A code has been sent to <span className="font-bold">{email}</span>
               </p>
             </div>
 
-            <form onSubmit={handleCodeSubmit} className="space-y-6 my-auto pt-6">
+            <form onSubmit={handleCodeSubmit} className="flex flex-col gap-6">
               <div>
-                <label htmlFor="recovery-code" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="recovery-code" className="block text-[12px] text-gray-700 mb-2">
                   Recovery Code
                 </label>
                 <input
@@ -171,28 +170,28 @@ export default function ForgotPassword() {
                   type="text"
                   value={recoveryCode}
                   onChange={(e) => setRecoveryCode(e.target.value)}
-                  className={`block w-full px-4 py-3.5 border ${codeError ? 'border-red-300 focus:ring-red-500' : 'border-gray-200 dark:border-gray-700 focus:ring-[#1E50C3]'} rounded-xl bg-gray-50/50 dark:bg-gray-800/50 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all`}
-                  placeholder="Enter 6-digit code"
+                  className={`block w-full px-4 py-3 border ${codeError ? 'border-red-400' : 'border-gray-100'} rounded-xl bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#1E50C3] focus:ring-1 focus:ring-[#1E50C3] transition-all text-[13px]`}
+                  placeholder="banjidhevid216@gmail.com"
                 />
-                {codeError && <p className="mt-1.5 text-xs text-red-600 dark:text-red-400">{codeError}</p>}
+                {codeError && <p className="mt-1 text-[11px] text-red-500">{codeError}</p>}
               </div>
 
               <div className="pt-2">
                 <button
                   type="submit"
                   disabled={isLoadingCode}
-                  className="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl text-white font-semibold bg-[#1E50C3] hover:bg-[#1A45A7] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1E50C3] shadow-lg shadow-blue-500/10 dark:shadow-none hover:shadow-xl hover:shadow-blue-500/25 transition-all active:scale-[0.99] disabled:opacity-50"
+                  className="w-full flex justify-center py-3.5 px-4 rounded-full text-white font-medium bg-[#2453CA] hover:bg-[#1E46AA] transition-colors disabled:opacity-50 text-[14px]"
                 >
                   {isLoadingCode ? 'Verifying...' : 'Confirm'}
                 </button>
               </div>
             </form>
 
-            <div className="text-center pt-4">
+            <div className="text-center mt-2">
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                className="text-sm font-medium text-[#1E50C3] hover:text-[#1A45A7] dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
+                className="text-[13px] text-[#2453CA] hover:text-[#1E46AA] underline decoration-1 underline-offset-2 transition-colors"
               >
                 Change Email Address
               </button>
@@ -202,18 +201,18 @@ export default function ForgotPassword() {
 
         {/* ─── STEP 3: Update Password ─── */}
         {step === 3 && (
-          <div className="w-[494px] min-h-[612px] bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-[18px] shadow-2xl p-10 flex flex-col justify-between transition-all">
-            <div className="text-center space-y-6">
+          <div className="w-[440px] bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-10 flex flex-col gap-8">
+            <div className="text-center space-y-4">
               {LOGO}
-              <h2 className="text-3xl font-extrabold text-gray-950 dark:text-white tracking-tight">
+              <h2 className="text-[22px] font-bold text-gray-900">
                 Update password
               </h2>
             </div>
 
-            <form onSubmit={handlePasswordSubmit} className="space-y-6 my-auto pt-6">
+            <form onSubmit={handlePasswordSubmit} className="flex flex-col gap-6">
               {/* New Password */}
               <div>
-                <label htmlFor="new-password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="new-password" className="block text-[12px] text-gray-700 mb-2">
                   New Password
                 </label>
                 <div className="relative">
@@ -222,22 +221,22 @@ export default function ForgotPassword() {
                     type={showNew ? 'text' : 'password'}
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    className={`block w-full pl-4 pr-11 py-3.5 border ${passwordError ? 'border-red-300 focus:ring-red-500' : 'border-gray-200 dark:border-gray-700 focus:ring-[#1E50C3]'} rounded-xl bg-gray-50/50 dark:bg-gray-800/50 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all`}
+                    className={`block w-full pl-4 pr-11 py-3 border ${passwordError ? 'border-red-400' : 'border-gray-100'} rounded-xl bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#1E50C3] focus:ring-1 focus:ring-[#1E50C3] transition-all text-[13px] tracking-widest`}
                     placeholder="***********"
                   />
                   <button
                     type="button"
                     onClick={() => setShowNew(!showNew)}
-                    className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none transition-colors"
+                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none"
                   >
-                    {showNew ? <FiEyeOff className="h-5 w-5" /> : <FiEye className="h-5 w-5" />}
+                    {showNew ? <FiEyeOff className="h-4 w-4" /> : <FiEye className="h-4 w-4" />}
                   </button>
                 </div>
               </div>
 
               {/* Confirm New Password */}
               <div>
-                <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="confirm-password" className="block text-[12px] text-gray-700 mb-2">
                   Confirm New Password
                 </label>
                 <div className="relative">
@@ -246,36 +245,30 @@ export default function ForgotPassword() {
                     type={showConfirm ? 'text' : 'password'}
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className={`block w-full pl-4 pr-11 py-3.5 border ${passwordError ? 'border-red-300 focus:ring-red-500' : 'border-gray-200 dark:border-gray-700 focus:ring-[#1E50C3]'} rounded-xl bg-gray-50/50 dark:bg-gray-800/50 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all`}
+                    className={`block w-full pl-4 pr-11 py-3 border ${passwordError ? 'border-red-400' : 'border-gray-100'} rounded-xl bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#1E50C3] focus:ring-1 focus:ring-[#1E50C3] transition-all text-[13px] tracking-widest`}
                     placeholder="***********"
                   />
                   <button
                     type="button"
                     onClick={() => setShowConfirm(!showConfirm)}
-                    className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none transition-colors"
+                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none"
                   >
-                    {showConfirm ? <FiEyeOff className="h-5 w-5" /> : <FiEye className="h-5 w-5" />}
+                    {showConfirm ? <FiEyeOff className="h-4 w-4" /> : <FiEye className="h-4 w-4" />}
                   </button>
                 </div>
-                {passwordError && <p className="mt-1.5 text-xs text-red-600 dark:text-red-400">{passwordError}</p>}
+                {passwordError && <p className="mt-1 text-[11px] text-red-500">{passwordError}</p>}
               </div>
 
               <div className="pt-2">
                 <button
                   type="submit"
                   disabled={isLoadingReset}
-                  className="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl text-white font-semibold bg-[#1E50C3] hover:bg-[#1A45A7] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1E50C3] shadow-lg shadow-blue-500/10 dark:shadow-none hover:shadow-xl hover:shadow-blue-500/25 transition-all active:scale-[0.99] disabled:opacity-50"
+                  className="w-full flex justify-center py-3.5 px-4 rounded-full text-white font-medium bg-[#2453CA] hover:bg-[#1E46AA] transition-colors disabled:opacity-50 text-[14px]"
                 >
                   {isLoadingReset ? 'Updating...' : 'Confirm'}
                 </button>
               </div>
             </form>
-            
-            <div className="text-center pt-4">
-              <Link href="/auth/login" className="text-sm font-medium text-gray-500 hover:text-[#1E50C3] dark:text-gray-400 dark:hover:text-blue-400 transition-colors">
-                Back to Login
-              </Link>
-            </div>
           </div>
         )}
       </div>
