@@ -111,7 +111,7 @@ export default function Dashboard() {
       <SEO title="Home" />
 
       {/* Stat Cards Container */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 mb-8 select-none">
+      <div className="grid grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-4 md:gap-6 mb-8 select-none">
         {stats.map((stat, i) => {
           const Icon = stat.icon;
           const isActive = activeFilter === stat.filterKey;
@@ -120,21 +120,21 @@ export default function Dashboard() {
             <div 
               key={i}
               onClick={() => setActiveFilter(stat.filterKey)}
-              className={`p-6 bg-white dark:bg-gray-800 border rounded-2xl cursor-pointer hover:shadow-lg transition-all duration-200 ${
+              className={`p-3 sm:p-6 bg-white dark:bg-gray-800 border rounded-2xl cursor-pointer hover:shadow-lg transition-all duration-200 flex flex-col justify-between ${
                 isActive 
                   ? 'border-primary ring-2 ring-primary/10' 
                   : 'border-gray-100 dark:border-gray-700'
               }`}
             >
-              <div className="flex items-center justify-between mb-4">
-                <div className={`p-2.5 rounded-xl ${stat.color}`}>
-                  <Icon className="h-5 w-5" />
+              <div className="flex items-center justify-between mb-2 sm:mb-4">
+                <div className={`p-1.5 sm:p-2.5 rounded-xl ${stat.color}`}>
+                  <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
                 </div>
               </div>
-              <p className="text-3xl font-extrabold text-gray-950 dark:text-white tracking-tight">
+              <p className="text-xl sm:text-3xl font-extrabold text-gray-950 dark:text-white tracking-tight">
                 {stat.count}
               </p>
-              <p className="text-[10px] font-semibold text-gray-400 dark:text-gray-500 tracking-wider mt-1.5 uppercase">
+              <p className="text-[9px] sm:text-[10px] font-semibold text-gray-400 dark:text-gray-500 tracking-wider mt-1 sm:mt-1.5 uppercase leading-tight sm:leading-normal line-clamp-2">
                 {stat.label}
               </p>
             </div>
