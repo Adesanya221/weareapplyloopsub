@@ -14,6 +14,7 @@ import {
   FiFile,
   FiTrash2
 } from 'react-icons/fi';
+import { HiOutlineSpeakerphone } from 'react-icons/hi';
 
 import SEO from '../shared/components/SEO';
 import DashboardLayout from '../shared/components/DashboardLayout';
@@ -140,6 +141,39 @@ export default function Dashboard() {
             </div>
           );
         })}
+      </div>
+
+      {/* Important Updates */}
+      <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6 md:p-8 mb-8 shadow-sm">
+        <div className="flex items-center gap-4 mb-6">
+          <div className="bg-[#1E50C3] p-3 rounded-xl flex items-center justify-center shrink-0">
+            <HiOutlineSpeakerphone className="text-white w-6 h-6" />
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-950 dark:text-white">Important Updates</h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Latest news and announcements</p>
+          </div>
+        </div>
+
+        <div className="border border-gray-100 dark:border-gray-700 rounded-xl p-5 md:p-6 mb-4">
+          <div className="flex items-start gap-3">
+            <span className="w-2 h-2 rounded-full bg-[#1E50C3] shrink-0 mt-1.5" />
+            <div className="flex flex-col gap-1.5">
+              <h3 className="text-sm md:text-base font-bold text-gray-800 dark:text-gray-200">Loop Lab Enhanced</h3>
+              <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                New interview scenarios added! Practice with company-specific questions from Google, Meta, Amazon, and more.
+              </p>
+              <span className="text-[11px] text-gray-400 dark:text-gray-500 mt-1">Feb 18, 2026.</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Carousel Indicators */}
+        <div className="flex justify-center items-center gap-2 mt-4">
+          <span className="w-2 h-2 rounded-full bg-[#1E50C3]" />
+          <span className="w-2 h-2 rounded-full bg-blue-200 dark:bg-blue-900" />
+          <span className="w-2 h-2 rounded-full bg-blue-200 dark:bg-blue-900" />
+        </div>
       </div>
 
       {/* Interactive Updates / Action Bar */}
