@@ -162,116 +162,123 @@ export default function ApplicationDetailPage() {
 
           {/* ═══════════════════════════════════════════════════════════════════
            *  SINGLE WHITE CARD — Contains info table, buttons, PDFs
-           *  This matches the Figma layout exactly
+           *  Matches Figma: info rows left, buttons right, PDFs below divider
            * ═══════════════════════════════════════════════════════════════════ */}
           <div className="bg-white border border-gray-100 rounded-2xl px-6 sm:px-8 py-6 mb-6">
 
-            {/* ── Info rows ── */}
-            {/* Backend: All fields from GET /api/applications/:id response */}
-            <div className="divide-y divide-gray-100">
+            {/* ── Top section: Info rows (left) + Buttons (right) ── */}
+            <div className="flex flex-col lg:flex-row gap-6">
 
-              {/* Status */}
-              <div className="flex items-center py-3 gap-4 sm:gap-6">
-                <div className="flex items-center gap-2 w-32 sm:w-44 text-sm text-gray-500 shrink-0">
-                  <FiRefreshCw className="w-4 h-4 flex-shrink-0" />
-                  Status
+              {/* Left side: Info rows */}
+              {/* Backend: All fields from GET /api/applications/:id response */}
+              <div className="flex-1 divide-y divide-gray-100">
+
+                {/* Status */}
+                <div className="flex items-center py-3 gap-4 sm:gap-6">
+                  <div className="flex items-center gap-2 w-32 sm:w-44 text-sm text-gray-500 shrink-0">
+                    <FiRefreshCw className="w-4 h-4 flex-shrink-0" />
+                    Status
+                  </div>
+                  {/* Backend: status field — possible values: Pending, Interview, Offered, Rejected */}
+                  <span className="px-3 py-1 rounded-md text-xs font-semibold bg-yellow-100 text-yellow-700 border border-yellow-200">
+                    {app.status}
+                  </span>
                 </div>
-                {/* Backend: status field — possible values: Pending, Interview, Offered, Rejected */}
-                <span className="px-3 py-1 rounded-md text-xs font-semibold bg-yellow-100 text-yellow-700 border border-yellow-200">
-                  {app.status}
-                </span>
+
+                {/* Role */}
+                <div className="flex items-center py-3 gap-4 sm:gap-6">
+                  <div className="flex items-center gap-2 w-32 sm:w-44 text-sm text-gray-500 shrink-0">
+                    <FiBriefcase className="w-4 h-4 flex-shrink-0" />
+                    Role
+                  </div>
+                  <span className="text-sm text-gray-800">{app.role}</span>
+                </div>
+
+                {/* Dates */}
+                <div className="flex items-center py-3 gap-4 sm:gap-6">
+                  <div className="flex items-center gap-2 w-32 sm:w-44 text-sm text-gray-500 shrink-0">
+                    <FiCalendar className="w-4 h-4 flex-shrink-0" />
+                    Dates
+                  </div>
+                  <span className="text-sm text-gray-800">{app.date}</span>
+                </div>
+
+                {/* Application Time */}
+                <div className="flex items-center py-3 gap-4 sm:gap-6">
+                  <div className="flex items-center gap-2 w-32 sm:w-44 text-sm text-gray-500 shrink-0">
+                    <FiClock className="w-4 h-4 flex-shrink-0" />
+                    Application Time
+                  </div>
+                  <span className="text-sm text-gray-800">{app.applicationTime}</span>
+                </div>
+
+                {/* Preferences */}
+                <div className="flex items-center py-3 gap-4 sm:gap-6">
+                  <div className="flex items-center gap-2 w-32 sm:w-44 text-sm text-gray-500 shrink-0">
+                    <FiStar className="w-4 h-4 flex-shrink-0" />
+                    Preferences
+                  </div>
+                  {/* Backend: preferences array — each item: { label, color } */}
+                  <div className="flex flex-wrap gap-2">
+                    {app.preferences.map((p) => (
+                      <span
+                        key={p.label}
+                        className={`px-3 py-1 rounded-md text-xs font-semibold ${p.color}`}
+                      >
+                        {p.label}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Job Link */}
+                <div className="flex items-center py-3 gap-4 sm:gap-6">
+                  <div className="flex items-center gap-2 w-32 sm:w-44 text-sm text-gray-500 shrink-0">
+                    <FiLink className="w-4 h-4 flex-shrink-0" />
+                    Job Link
+                  </div>
+                  {/* Security: Validate URL format on backend, use rel="noopener noreferrer" */}
+                  <a
+                    href={`https://${app.jobLink}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-[#1E50C3] hover:underline break-all"
+                  >
+                    {app.jobLink}
+                  </a>
+                </div>
               </div>
 
-              {/* Role */}
-              <div className="flex items-center py-3 gap-4 sm:gap-6">
-                <div className="flex items-center gap-2 w-32 sm:w-44 text-sm text-gray-500 shrink-0">
-                  <FiBriefcase className="w-4 h-4 flex-shrink-0" />
-                  Role
-                </div>
-                <span className="text-sm text-gray-800">{app.role}</span>
-              </div>
-
-              {/* Dates */}
-              <div className="flex items-center py-3 gap-4 sm:gap-6">
-                <div className="flex items-center gap-2 w-32 sm:w-44 text-sm text-gray-500 shrink-0">
-                  <FiCalendar className="w-4 h-4 flex-shrink-0" />
-                  Dates
-                </div>
-                <span className="text-sm text-gray-800">{app.date}</span>
-              </div>
-
-              {/* Application Time */}
-              <div className="flex items-center py-3 gap-4 sm:gap-6">
-                <div className="flex items-center gap-2 w-32 sm:w-44 text-sm text-gray-500 shrink-0">
-                  <FiClock className="w-4 h-4 flex-shrink-0" />
-                  Application Time
-                </div>
-                <span className="text-sm text-gray-800">{app.applicationTime}</span>
-              </div>
-
-              {/* Preferences */}
-              <div className="flex items-center py-3 gap-4 sm:gap-6">
-                <div className="flex items-center gap-2 w-32 sm:w-44 text-sm text-gray-500 shrink-0">
-                  <FiStar className="w-4 h-4 flex-shrink-0" />
-                  Preferences
-                </div>
-                {/* Backend: preferences array — each item: { label, color } */}
-                <div className="flex flex-wrap gap-2">
-                  {app.preferences.map((p) => (
-                    <span
-                      key={p.label}
-                      className={`px-3 py-1 rounded-md text-xs font-semibold ${p.color}`}
-                    >
-                      {p.label}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Job Link */}
-              <div className="flex items-center py-3 gap-4 sm:gap-6">
-                <div className="flex items-center gap-2 w-32 sm:w-44 text-sm text-gray-500 shrink-0">
-                  <FiLink className="w-4 h-4 flex-shrink-0" />
-                  Job Link
-                </div>
-                {/* Security: Validate URL format on backend, use rel="noopener noreferrer" */}
-                <a
-                  href={`https://${app.jobLink}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-[#1E50C3] hover:underline break-all"
+              {/* Right side: Action buttons — aligned to bottom-right */}
+              {/* Backend: PUT /api/applications/:id/approve */}
+              {/* Backend: Opens feedback panel for POST /api/applications/:id/feedback */}
+              <div className="flex flex-row lg:flex-col items-end justify-end gap-3 shrink-0">
+                <button
+                  onClick={() => setIsApproveModalOpen(true)}
+                  className="px-5 py-2.5 rounded-xl bg-[#1E50C3] text-white text-sm font-semibold hover:bg-[#1A45A7] transition-colors whitespace-nowrap"
                 >
-                  {app.jobLink}
-                </a>
+                  Approve Application
+                </button>
+                <button
+                  onClick={() => setShowFeedback(true)}
+                  className="px-5 py-2.5 rounded-xl border border-[#1E50C3] text-[#1E50C3] text-sm font-semibold hover:bg-blue-50 transition-colors whitespace-nowrap"
+                >
+                  Send Feedback
+                </button>
               </div>
             </div>
 
-            {/* ── Action buttons — Approve Application & Send Feedback ── */}
-            {/* Backend: PUT /api/applications/:id/approve */}
-            {/* Backend: Opens feedback panel for POST /api/applications/:id/feedback */}
-            <div className="flex flex-wrap justify-end gap-3 mt-4 pt-4 border-t border-gray-100">
-              <button
-                onClick={() => setIsApproveModalOpen(true)}
-                className="px-5 py-2.5 rounded-xl bg-[#1E50C3] text-white text-sm font-semibold hover:bg-[#1A45A7] transition-colors"
-              >
-                Approve Application
-              </button>
-              <button
-                onClick={() => setShowFeedback(true)}
-                className="px-5 py-2.5 rounded-xl border border-[#1E50C3] text-[#1E50C3] text-sm font-semibold hover:bg-blue-50 transition-colors"
-              >
-                Send Feedback
-              </button>
-            </div>
+            {/* ── Divider between info and PDFs ── */}
+            <hr className="border-gray-100 my-6" />
 
             {/* ── PDF Thumbnails ── */}
             {/* Backend: GET /api/applications/:id/documents */}
             {/* Returns: [{ name, type, url }] — render download links */}
-            <div className="flex gap-5 mt-8">
+            <div className="flex gap-5">
               {['Submitted Resume .pdf', 'Submitted Cover letter.pdf'].map((label) => (
                 <div key={label} className="flex flex-col items-center gap-2 cursor-pointer group">
                   {/* PDF Icon thumbnail */}
-                  <div className="w-[100px] sm:w-[120px] h-[120px] sm:h-[140px] bg-white border border-gray-100 rounded-xl shadow-sm flex flex-col items-center justify-center relative overflow-hidden group-hover:shadow-md transition-shadow">
+                  <div className="w-[100px] sm:w-[120px] h-[120px] sm:h-[140px] bg-white border border-gray-200 rounded-xl shadow-sm flex flex-col items-center justify-center relative overflow-hidden group-hover:shadow-md transition-shadow">
                     {/* Red PDF badge */}
                     <div className="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-sm shadow">
                       PDF
