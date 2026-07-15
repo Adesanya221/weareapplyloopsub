@@ -11,7 +11,6 @@ import {
   FiLink,
   FiX,
   FiSend,
-  FiPaperclip,
 } from 'react-icons/fi';
 import ApproveModal from '../../shared/components/ApproveModal';
 
@@ -19,14 +18,18 @@ import ApproveModal from '../../shared/components/ApproveModal';
 // Backend: GET /api/applications/:id
 import { MOCK_APPLICATION_DETAIL } from '../../data/mockData';
 
-// ─── Feedback History Panel ──────────────────────────────────────────────────
+// ════════════════════════════════════════════════════════════════════════════════
+// FEEDBACK HISTORY PANEL — Slide-in side panel
+// Backend: GET /api/applications/:id/feedback (list)
+// Backend: POST /api/applications/:id/feedback (send message)
+// ════════════════════════════════════════════════════════════════════════════════
 
 function FeedbackPanel({ onClose }) {
   const [message, setMessage] = useState('');
 
   return (
-    <div className="fixed right-0 top-0 h-full w-[380px] bg-white shadow-2xl z-40 flex flex-col">
-      {/* Close button - top right */}
+    <div className="fixed right-0 top-0 h-full w-full sm:w-[380px] bg-white shadow-2xl z-40 flex flex-col">
+      {/* Close button — top right */}
       <div className="flex justify-end p-4">
         <button
           onClick={onClose}
@@ -38,20 +41,21 @@ function FeedbackPanel({ onClose }) {
 
       {/* Title */}
       <div className="px-5 pb-4">
-        <h3 className="text-xl font-bold text-gray-900">Feedback</h3>
+        <h3 className="text-xl font-bold text-gray-900">Feedback History</h3>
       </div>
 
       {/* Yellow card — fills remaining space */}
       <div className="flex-1 mx-4 mb-4 bg-[#FFF9C4] rounded-2xl flex flex-col overflow-hidden">
-        {/* Messages */}
+        {/* Messages area */}
+        {/* Backend: Each message has { id, title?, sender?, body, author, date } */}
         <div className="flex-1 overflow-y-auto p-5 flex flex-col gap-4">
           {MOCK_APPLICATION_DETAIL.feedbackHistory.map((fb) => (
             <div key={fb.id} className="flex flex-col gap-1">
               {fb.title && (
-                <p className="text-sm font-bold text-gray-900 text-right">{fb.title}</p>
+                <p className="text-sm font-bold text-gray-900 text-center">{fb.title}</p>
               )}
               {fb.sender && (
-                <p className="text-xs text-gray-600 text-right">{fb.sender}</p>
+                <p className="text-xs text-gray-600 text-center">{fb.sender}</p>
               )}
               <p className="text-sm text-gray-700 leading-relaxed mt-1">{fb.body}</p>
               <p className="text-xs text-gray-500 text-right mt-1">
@@ -62,20 +66,23 @@ function FeedbackPanel({ onClose }) {
           ))}
         </div>
 
-        {/* Message input */}
-        <div className="px-4 py-3 flex items-center gap-2">
+        {/* Message input — bottom of yellow card */}
+        <div className="px-4 py-3 flex items-center gap-2 border-t border-yellow-300">
           <input
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Type a message..."
+            // Security: Sanitize on backend before storing. No raw HTML rendering.
             className="flex-1 bg-transparent text-sm text-gray-600 placeholder-gray-400 focus:outline-none italic"
           />
-          <button 
+          <button
             onClick={() => {
-              // TODO(Backend): POST /api/applications/${router.query.id}/feedback with { message }
-              if (message) {
-                console.log('Sending message:', message);
+              // TODO(Backend): POST /api/applications/${id}/feedback
+              // Payload: { message }
+              // Security: Sanitize input, validate auth token
+              if (message.trim()) {
+                console.log('Sending feedback message:', message);
                 setMessage('');
               }
             }}
@@ -89,12 +96,15 @@ function FeedbackPanel({ onClose }) {
   );
 }
 
-// ─── Sticky Note Tooltip ─────────────────────────────────────────────────────
+// ════════════════════════════════════════════════════════════════════════════════
+// STICKY NOTE — Small floating card on right side
+// Backend: GET /api/applications/:id (stickyNote field in response)
+// ════════════════════════════════════════════════════════════════════════════════
 
 function StickyNote({ note, onClose }) {
   return (
-    <div className="fixed top-16 right-6 z-30 w-[220px] bg-[#FFF7B3] rounded-xl shadow-xl p-4">
-      {/* Pin icon */}
+    <div className="absolute -right-4 sm:-right-16 top-4 w-[180px] sm:w-[220px] bg-[#FFF7B3] rounded-xl shadow-xl p-4 z-30">
+      {/* Pin icon + close */}
       <div className="flex justify-between items-start mb-2">
         <span className="text-blue-600 text-lg">📌</span>
         <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
@@ -110,12 +120,16 @@ function StickyNote({ note, onClose }) {
   );
 }
 
-// ─── Main page ────────────────────────────────────────────────────────────────
+// ════════════════════════════════════════════════════════════════════════════════
+// MAIN PAGE — Job Application Detail
+// Backend: GET /api/applications/:id
+// ════════════════════════════════════════════════════════════════════════════════
 
 export default function ApplicationDetailPage() {
   const router = useRouter();
-  // TODO(Backend): Fetch application by ID using GET /api/applications/${router.query.id}
-  // Data structure should match the mock MOCK_APPLICATION_DETAIL object in mockData.js.
+  // TODO(Backend): Replace with useSWR or useEffect + fetch
+  // Endpoint: GET /api/applications/${router.query.id}
+  // Response shape should match MOCK_APPLICATION_DETAIL
   const app = MOCK_APPLICATION_DETAIL;
 
   const [showStickyNote, setShowStickyNote] = useState(false);
@@ -131,11 +145,11 @@ export default function ApplicationDetailPage() {
 
       <DashboardLayout>
         <div className="max-w-3xl relative">
-          {/* ── Sticky note trigger ── */}
+          {/* ── Sticky note trigger — pin icon on right ── */}
           {!showStickyNote && (
-            <button 
+            <button
               onClick={() => setShowStickyNote(true)}
-              className="absolute -right-16 top-6 w-10 h-10 flex items-center justify-center text-blue-600 hover:scale-110 transition-transform"
+              className="absolute -right-4 sm:-right-16 top-6 w-10 h-10 flex items-center justify-center text-blue-600 hover:scale-110 transition-transform"
             >
               <span className="text-2xl drop-shadow-md">📌</span>
             </button>
@@ -146,10 +160,96 @@ export default function ApplicationDetailPage() {
             <StickyNote note={app.stickyNote} onClose={() => setShowStickyNote(false)} />
           )}
 
-          {/* ── Info table ── */}
-          <div className="bg-white border border-gray-100 rounded-2xl px-8 py-6 mb-5">
-            {/* Approve / Send Feedback buttons */}
-            <div className="flex justify-end gap-3 mb-6">
+          {/* ═══════════════════════════════════════════════════════════════════
+           *  SINGLE WHITE CARD — Contains info table, buttons, PDFs
+           *  This matches the Figma layout exactly
+           * ═══════════════════════════════════════════════════════════════════ */}
+          <div className="bg-white border border-gray-100 rounded-2xl px-6 sm:px-8 py-6 mb-6">
+
+            {/* ── Info rows ── */}
+            {/* Backend: All fields from GET /api/applications/:id response */}
+            <div className="divide-y divide-gray-100">
+
+              {/* Status */}
+              <div className="flex items-center py-3 gap-4 sm:gap-6">
+                <div className="flex items-center gap-2 w-32 sm:w-44 text-sm text-gray-500 shrink-0">
+                  <FiRefreshCw className="w-4 h-4 flex-shrink-0" />
+                  Status
+                </div>
+                {/* Backend: status field — possible values: Pending, Interview, Offered, Rejected */}
+                <span className="px-3 py-1 rounded-md text-xs font-semibold bg-yellow-100 text-yellow-700 border border-yellow-200">
+                  {app.status}
+                </span>
+              </div>
+
+              {/* Role */}
+              <div className="flex items-center py-3 gap-4 sm:gap-6">
+                <div className="flex items-center gap-2 w-32 sm:w-44 text-sm text-gray-500 shrink-0">
+                  <FiBriefcase className="w-4 h-4 flex-shrink-0" />
+                  Role
+                </div>
+                <span className="text-sm text-gray-800">{app.role}</span>
+              </div>
+
+              {/* Dates */}
+              <div className="flex items-center py-3 gap-4 sm:gap-6">
+                <div className="flex items-center gap-2 w-32 sm:w-44 text-sm text-gray-500 shrink-0">
+                  <FiCalendar className="w-4 h-4 flex-shrink-0" />
+                  Dates
+                </div>
+                <span className="text-sm text-gray-800">{app.date}</span>
+              </div>
+
+              {/* Application Time */}
+              <div className="flex items-center py-3 gap-4 sm:gap-6">
+                <div className="flex items-center gap-2 w-32 sm:w-44 text-sm text-gray-500 shrink-0">
+                  <FiClock className="w-4 h-4 flex-shrink-0" />
+                  Application Time
+                </div>
+                <span className="text-sm text-gray-800">{app.applicationTime}</span>
+              </div>
+
+              {/* Preferences */}
+              <div className="flex items-center py-3 gap-4 sm:gap-6">
+                <div className="flex items-center gap-2 w-32 sm:w-44 text-sm text-gray-500 shrink-0">
+                  <FiStar className="w-4 h-4 flex-shrink-0" />
+                  Preferences
+                </div>
+                {/* Backend: preferences array — each item: { label, color } */}
+                <div className="flex flex-wrap gap-2">
+                  {app.preferences.map((p) => (
+                    <span
+                      key={p.label}
+                      className={`px-3 py-1 rounded-md text-xs font-semibold ${p.color}`}
+                    >
+                      {p.label}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Job Link */}
+              <div className="flex items-center py-3 gap-4 sm:gap-6">
+                <div className="flex items-center gap-2 w-32 sm:w-44 text-sm text-gray-500 shrink-0">
+                  <FiLink className="w-4 h-4 flex-shrink-0" />
+                  Job Link
+                </div>
+                {/* Security: Validate URL format on backend, use rel="noopener noreferrer" */}
+                <a
+                  href={`https://${app.jobLink}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-[#1E50C3] hover:underline break-all"
+                >
+                  {app.jobLink}
+                </a>
+              </div>
+            </div>
+
+            {/* ── Action buttons — Approve Application & Send Feedback ── */}
+            {/* Backend: PUT /api/applications/:id/approve */}
+            {/* Backend: Opens feedback panel for POST /api/applications/:id/feedback */}
+            <div className="flex flex-wrap justify-end gap-3 mt-4 pt-4 border-t border-gray-100">
               <button
                 onClick={() => setIsApproveModalOpen(true)}
                 className="px-5 py-2.5 rounded-xl bg-[#1E50C3] text-white text-sm font-semibold hover:bg-[#1A45A7] transition-colors"
@@ -164,111 +264,41 @@ export default function ApplicationDetailPage() {
               </button>
             </div>
 
-            {/* Fields */}
-            <div className="divide-y divide-gray-100">
-              {/* Status */}
-              <div className="flex items-center py-3 gap-6">
-                <div className="flex items-center gap-2 w-44 text-sm text-gray-500">
-                  <FiRefreshCw className="w-4 h-4 flex-shrink-0" />
-                  Status
+            {/* ── PDF Thumbnails ── */}
+            {/* Backend: GET /api/applications/:id/documents */}
+            {/* Returns: [{ name, type, url }] — render download links */}
+            <div className="flex gap-5 mt-8">
+              {['Submitted Resume .pdf', 'Submitted Cover letter.pdf'].map((label) => (
+                <div key={label} className="flex flex-col items-center gap-2 cursor-pointer group">
+                  {/* PDF Icon thumbnail */}
+                  <div className="w-[100px] sm:w-[120px] h-[120px] sm:h-[140px] bg-white border border-gray-100 rounded-xl shadow-sm flex flex-col items-center justify-center relative overflow-hidden group-hover:shadow-md transition-shadow">
+                    {/* Red PDF badge */}
+                    <div className="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-sm shadow">
+                      PDF
+                    </div>
+                    {/* Page lines decoration */}
+                    <div className="mt-10 w-16 flex flex-col gap-1.5">
+                      <div className="h-1 bg-gray-100 rounded" />
+                      <div className="h-1 bg-gray-100 rounded" />
+                      <div className="h-1 bg-gray-100 rounded w-3/4" />
+                    </div>
+                    {/* Folded corner */}
+                    <div
+                      className="absolute bottom-0 right-0 w-8 h-8 bg-gray-100"
+                      style={{ clipPath: 'polygon(100% 0, 100% 100%, 0 100%)' }}
+                    />
+                  </div>
+                  <span className="text-xs text-gray-600 font-medium text-center">{label}</span>
                 </div>
-                <span className="px-3 py-1 rounded-md text-xs font-semibold bg-yellow-100 text-yellow-700 border border-yellow-200">
-                  {app.status}
-                </span>
-              </div>
-
-              {/* Role */}
-              <div className="flex items-center py-3 gap-6">
-                <div className="flex items-center gap-2 w-44 text-sm text-gray-500">
-                  <FiBriefcase className="w-4 h-4 flex-shrink-0" />
-                  Role
-                </div>
-                <span className="text-sm text-gray-800">{app.role}</span>
-              </div>
-
-              {/* Dates */}
-              <div className="flex items-center py-3 gap-6">
-                <div className="flex items-center gap-2 w-44 text-sm text-gray-500">
-                  <FiCalendar className="w-4 h-4 flex-shrink-0" />
-                  Dates
-                </div>
-                <span className="text-sm text-gray-800">{app.date}</span>
-              </div>
-
-              {/* Application Time */}
-              <div className="flex items-center py-3 gap-6">
-                <div className="flex items-center gap-2 w-44 text-sm text-gray-500">
-                  <FiClock className="w-4 h-4 flex-shrink-0" />
-                  Application Time
-                </div>
-                <span className="text-sm text-gray-800">{app.applicationTime}</span>
-              </div>
-
-              {/* Preferences */}
-              <div className="flex items-center py-3 gap-6">
-                <div className="flex items-center gap-2 w-44 text-sm text-gray-500">
-                  <FiStar className="w-4 h-4 flex-shrink-0" />
-                  Preferences
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {app.preferences.map((p) => (
-                    <span
-                      key={p.label}
-                      className={`px-3 py-1 rounded-md text-xs font-semibold ${p.color}`}
-                    >
-                      {p.label}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Job Link */}
-              <div className="flex items-center py-3 gap-6">
-                <div className="flex items-center gap-2 w-44 text-sm text-gray-500">
-                  <FiLink className="w-4 h-4 flex-shrink-0" />
-                  Job Link
-                </div>
-                <a
-                  href={`https://${app.jobLink}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-[#1E50C3] hover:underline"
-                >
-                  {app.jobLink}
-                </a>
-              </div>
+              ))}
             </div>
           </div>
 
-          {/* ── PDF Thumbnails ── */}
-          <div className="flex gap-5 mb-5">
-            {['Submitted Resume .pdf', 'Submitted Cover letter.pdf'].map((label) => (
-              <div key={label} className="flex flex-col items-center gap-2">
-                {/* PDF Icon */}
-                <div className="w-[120px] h-[140px] bg-white border border-gray-100 rounded-xl shadow-sm flex flex-col items-center justify-center relative overflow-hidden">
-                  {/* Red PDF badge */}
-                  <div className="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-sm shadow">
-                    PDF
-                  </div>
-                  {/* Page lines decoration */}
-                  <div className="mt-10 w-16 flex flex-col gap-1.5">
-                    <div className="h-1 bg-gray-100 rounded" />
-                    <div className="h-1 bg-gray-100 rounded" />
-                    <div className="h-1 bg-gray-100 rounded w-3/4" />
-                  </div>
-                  {/* Folded corner */}
-                  <div
-                    className="absolute bottom-0 right-0 w-8 h-8 bg-gray-100"
-                    style={{ clipPath: 'polygon(100% 0, 100% 100%, 0 100%)' }}
-                  />
-                </div>
-                <span className="text-xs text-gray-600 font-medium">{label}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* ── Job Details ── */}
-          <div className="bg-white border border-gray-100 rounded-2xl px-8 py-6 mb-5">
+          {/* ═══════════════════════════════════════════════════════════════════
+           *  JOB DETAILS SECTION
+           *  Backend: jobDetails array from GET /api/applications/:id
+           * ═══════════════════════════════════════════════════════════════════ */}
+          <div className="mb-6">
             <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide mb-4">
               Job Details
             </h3>
@@ -282,8 +312,11 @@ export default function ApplicationDetailPage() {
             </ul>
           </div>
 
-          {/* ── Qualities ── */}
-          <div className="bg-white border border-gray-100 rounded-2xl px-8 py-6 mb-5">
+          {/* ═══════════════════════════════════════════════════════════════════
+           *  QUALITIES AND CHARACTERISTICS
+           *  Backend: qualities array from GET /api/applications/:id
+           * ═══════════════════════════════════════════════════════════════════ */}
+          <div className="mb-6">
             <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide mb-4">
               Qualities and Characteristics
             </h3>
@@ -297,8 +330,11 @@ export default function ApplicationDetailPage() {
             </ul>
           </div>
 
-          {/* ── Other Details ── */}
-          <div className="bg-white border border-gray-100 rounded-2xl px-8 py-6">
+          {/* ═══════════════════════════════════════════════════════════════════
+           *  OTHER DETAILS
+           *  Backend: otherDetails array from GET /api/applications/:id
+           * ═══════════════════════════════════════════════════════════════════ */}
+          <div className="mb-6">
             <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide mb-4">
               Other Details
             </h3>
@@ -314,16 +350,26 @@ export default function ApplicationDetailPage() {
         </div>
 
         {/* ── Feedback History Side Panel ── */}
+        {/* Renders as a slide-in overlay on the right side of the screen */}
         {showFeedback && (
-          <FeedbackPanel onClose={() => setShowFeedback(false)} />
+          <>
+            {/* Backdrop overlay */}
+            <div
+              className="fixed inset-0 bg-black/20 z-30"
+              onClick={() => setShowFeedback(false)}
+            />
+            <FeedbackPanel onClose={() => setShowFeedback(false)} />
+          </>
         )}
 
         {/* ── Approve Modal ── */}
+        {/* Backend: PUT /api/applications/:id/approve */}
         <ApproveModal
           isOpen={isApproveModalOpen}
           onClose={() => setIsApproveModalOpen(false)}
           onConfirm={() => {
             // TODO(Backend): Map to PUT /api/applications/${router.query.id}/approve
+            // Security: Validate auth token, check user permissions
             console.log('Application approved!');
           }}
         />
