@@ -190,18 +190,10 @@ export default function Dashboard() {
       </div>
 
       {/* Interactive Updates / Action Bar */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-5 md:p-6 mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-sm">
-        <div>
-          <h3 className="text-base font-bold text-gray-950 dark:text-white">
-            Job Tracker Updates
-          </h3>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Need to update application stages? Click on row options to move stages.
-          </p>
-        </div>
+      <div className="mb-4 flex items-center">
         <button 
           onClick={() => setIsAddJobModalOpen(true)}
-          className="flex items-center gap-2 bg-[#1E50C3] hover:bg-[#1A45A7] text-white px-5 py-3 rounded-xl font-medium text-sm transition-all shadow-md shadow-blue-500/10 active:scale-[0.98]"
+          className="flex items-center gap-2 text-[#1E50C3] hover:text-[#1A45A7] font-semibold text-sm transition-colors"
         >
           <FiPlus className="text-lg" />
           <span>Add Job Link</span>
@@ -221,7 +213,6 @@ export default function Dashboard() {
                 <th className="px-6 py-4.5">Resume</th>
                 <th className="px-6 py-4.5">Cover Letter</th>
                 <th className="px-6 py-4.5">Status</th>
-                <th className="px-6 py-4.5 text-center">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
@@ -264,37 +255,11 @@ export default function Dashboard() {
                     <td className="px-6 py-4.5">
                       {getStatusBadge(app.status)}
                     </td>
-                    <td className="px-6 py-4.5">
-                      <div className="flex items-center justify-center gap-2">
-                        {app.status === 'Pending' && (
-                          <button
-                            onClick={() => {
-                              setSelectedApp(app);
-                              setIsApproveModalOpen(true);
-                            }}
-                            title="Approve Application"
-                            className="p-1.5 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors"
-                          >
-                            <FiCheck className="w-4 h-4" />
-                          </button>
-                        )}
-                        <button
-                          onClick={() => {
-                            // TODO(Backend): Replace with applyLoopApi.applications.delete(app.id)
-                            setApplications(prev => prev.filter(a => a.id !== app.id));
-                          }}
-                          title="Delete Application"
-                          className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
-                        >
-                          <FiTrash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={8} className="px-6 py-12 text-center text-gray-400 dark:text-gray-500">
+                  <td colSpan={7} className="px-6 py-12 text-center text-gray-400 dark:text-gray-500">
                     No applications found matching status "{activeFilter}".
                   </td>
                 </tr>
